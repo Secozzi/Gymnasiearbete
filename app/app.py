@@ -5,6 +5,9 @@ from PyQt5.uic import loadUi
 from pyqtkeybind import keybinder
 from key_binder import WinEventFilter
 
+import os
+CURR_PATH = os.path.dirname(os.path.realpath(__file__))
+
 
 class InfoPad(QMainWindow):
     def __init__(self):
@@ -14,7 +17,7 @@ class InfoPad(QMainWindow):
         self.show()
 
     def init_ui(self):
-        loadUi('app.ui', self)
+        loadUi(f'{CURR_PATH}/assets/app.ui', self)
 
     def grid_1(self):
         print("Activated Num 7")
@@ -44,9 +47,12 @@ class InfoPad(QMainWindow):
         print("Activated Num 3")
 
 
-if __name__ == '__main__':
+def main():
     import sys
     app = QApplication(sys.argv)
+    tray_icon = QSystemTrayIcon(QIcon(f"{CURR_PATH}/assets/icon.png"), app)
+    tray_icon.show()
+
     info_app = InfoPad()
 
     keybinder.init()
@@ -65,3 +71,7 @@ if __name__ == '__main__':
     event_dispatcher.installNativeEventFilter(win_event_filter)
 
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    main()
