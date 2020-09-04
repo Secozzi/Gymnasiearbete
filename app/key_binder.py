@@ -21,10 +21,10 @@ Numpad1 - Grid 7        - CTRL + F19
 Numpad2 - Grid 8        - CTRL + F20
 Numpad3 - Grid 9        - CTRL + F21
 Numpad0 - Grid 10       - CTRL + F22
-Numpad, - Grid Home     - Alt + F13
-NumpadE - Scroll Down   - Alt + F14
-Numpad+ - Scroll Up     - Alt + F15
-Numpad- - Vol Up        - Alt + F16
-Numpad* - Vol Down      - Alt + F17
-Numpad/ - Mute Mic      - Alt + F18
+Numpad, - Grid Home     - CTRL + Alt + F13
+NumpadE - Scroll Down   - CTRL + Alt + F14
+Numpad+ - Scroll Up     - CTRL + Alt + F15
+Numpad- - Vol Up        - CTRL + Alt + F16
+Numpad* - Vol Down      - CTRL + Alt + F17
+Numpad/ - Mute Mic      - CTRL + Alt + F18
 """

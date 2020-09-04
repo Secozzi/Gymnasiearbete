@@ -46,5 +46,6 @@ Planering
 
 | Datum | Vad som gjordes | Tills nästa lektion |
 | :---- | :-------------- | :------------------ |
-| 28 Aug 2020 - 02 Sep 2020 | Skapade applikationsfönstret och lade till en klocka som visar vecka, datum och tid. Lade till ett schema för tagnentskombinationer och förtryckte de vanliga. | Skapa dokumentationsdokument
-| 03 Sep 2020 | Skapade ett dokument för dokumentationen. | Skapa grunden för applikationen
+| 28 Aug 2020 - 02 Sep 2020 | Skapade applikationsfönstret och lade till en klocka som visar vecka, datum och tid. Lade till ett schema för tagnentskombinationer och förtryckte de vanliga. | Skapa dokumentationsdokument |
+| 03 Sep 2020 | Skapade ett dokument för dokumentationen. | Skapa grunden för applikationen |
+| 04 Sep 2020 | Började på integration med Spotify för att visa låt. | Få det att fungera. |
