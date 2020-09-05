@@ -10,19 +10,19 @@
     <height>391</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>48</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>17</pointsize>
-      </font>
-     </property>
      <property name="text">
-      <string>This is the home widget. Num7 for page1 and Num8 for page2</string>
+      <string>This is page2</string>
      </property>
     </widget>
    </item>

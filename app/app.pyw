@@ -4,7 +4,7 @@ from PyQt5.uic import loadUi
 
 from pyqtkeybind import keybinder
 from key_binder import WinEventFilter
-from widgets import HomeWidget
+from widgets import WIDGETS
 
 import time
 from datetime import datetime
@@ -30,14 +30,14 @@ class InfoPad(QMainWindow):
         super().__init__()
 
         self.current_path = CURR_PATH
-        #self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.init_ui()
         self.add_widgets()
         self.start_thread()
         self.show()
 
     def init_ui(self):
-        loadUi(f'{CURR_PATH}/assets/app.ui', self)
+        loadUi(f'{CURR_PATH}/app.ui', self)
 
         with open(f"{CURR_PATH}/assets/style.qss") as f:
             style_sheet = f.read()
@@ -49,61 +49,33 @@ class InfoPad(QMainWindow):
         self.i_thread.start()
 
     def add_widgets(self):
-        pass
-        #home_widget = HomeWidget(self)
-        #self.stackedWidget.addWidget(home_widget)
+        for widget in WIDGETS:
+            _widget = widget(self)
+            self.stackedWidget.addWidget(_widget)
+        self.stackedWidget.setCurrentIndex(0)
+
+    def set_index(self, index):
+        self.stackedWidget.setCurrentIndex(index)
 
     def update_time(self, time_s):
-        #print(time_s)
         self.time_string.setText(time_s)
 
-    def grid_1(self):
-        print("Activated Num 7")
-
-    def grid_2(self):
-        print("Activated Num 8")
-
-    def grid_3(self):
-        print("Activated Num 9")
-
-    def grid_4(self):
-        print("Activated Num 4")
-
-    def grid_5(self):
-        print("Activated Num 5")
-
-    def grid_6(self):
-        print("Activated Num 6")
-
-    def grid_7(self):
-        print("Activated Num 1")
-
-    def grid_8(self):
-        print("Activated Num 2")
-
-    def grid_9(self):
-        print("Activated Num 3")
-
-    def grid_10(self):
-        print("Activated Num 0")
-
-    def grid_home(self):
-        print("Activated Num del")
-
-    def grid_sd(self):
-        print("Activated Num Enter")
-
-    def grid_su(self):
-        print("Activated Num +")
-
-    def grid_vu(self):
-        print("Activated Num -")
-
-    def grid_vd(self):
-        print("Activated num *")
-
-    def grid_mm(self):
-        print("Activated num /")
+    def grid_1(self): self.stackedWidget.currentWidget().grid_1()
+    def grid_2(self): self.stackedWidget.currentWidget().grid_2()
+    def grid_3(self): self.stackedWidget.currentWidget().grid_3()
+    def grid_4(self): self.stackedWidget.currentWidget().grid_4()
+    def grid_5(self): self.stackedWidget.currentWidget().grid_5()
+    def grid_6(self): self.stackedWidget.currentWidget().grid_6()
+    def grid_7(self): self.stackedWidget.currentWidget().grid_7()
+    def grid_8(self): self.stackedWidget.currentWidget().grid_8()
+    def grid_9(self): self.stackedWidget.currentWidget().grid_9()
+    def grid_10(self): self.stackedWidget.currentWidget().grid_10()
+    def grid_sd(self): self.stackedWidget.currentWidget().grid_sd()
+    def grid_su(self): self.stackedWidget.currentWidget().grid_su()
+    def grid_vu(self): self.stackedWidget.currentWidget().grid_vu()
+    def grid_vd(self): self.stackedWidget.currentWidget().grid_vd()
+    def grid_mm(self): self.stackedWidget.currentWidget().grid_mm()
+    def grid_home(self): self.stackedWidget.setCurrentIndex(0)
 
 
 def main():

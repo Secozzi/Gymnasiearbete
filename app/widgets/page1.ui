@@ -18,11 +18,11 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <pointsize>17</pointsize>
+       <pointsize>48</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>This is the home widget. Num7 for page1 and Num8 for page2</string>
+      <string>This is page1</string>
      </property>
     </widget>
    </item>
