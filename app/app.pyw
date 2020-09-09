@@ -3,13 +3,14 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.uic import loadUi
 
 from pyqtkeybind import keybinder
-from key_binder import WinEventFilter
-from widgets import WIDGETS
+from .key_binder import WinEventFilter
+from .widgets import WIDGETS
 
 import time
 from datetime import datetime
 
 import os
+
 CURR_PATH = os.path.dirname(os.path.realpath(__file__))
 
 
@@ -26,18 +27,22 @@ class InfoThread(QThread):
 
 
 class InfoPad(QMainWindow):
+
+    OPACITY_STEP = 0.2
+
     def __init__(self):
         super().__init__()
 
         self.current_path = CURR_PATH
-        self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.FramelessWindowHint)
+        # self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.init_ui()
         self.add_widgets()
         self.start_thread()
         self.show()
 
     def init_ui(self):
-        loadUi(f'{CURR_PATH}/app.ui', self)
+        loadUi(f"{CURR_PATH}/app.ui", self)
 
         with open(f"{CURR_PATH}/assets/style.qss") as f:
             style_sheet = f.read()
@@ -60,26 +65,62 @@ class InfoPad(QMainWindow):
     def update_time(self, time_s):
         self.time_string.setText(time_s)
 
-    def grid_1(self): self.stackedWidget.currentWidget().grid_1()
-    def grid_2(self): self.stackedWidget.currentWidget().grid_2()
-    def grid_3(self): self.stackedWidget.currentWidget().grid_3()
-    def grid_4(self): self.stackedWidget.currentWidget().grid_4()
-    def grid_5(self): self.stackedWidget.currentWidget().grid_5()
-    def grid_6(self): self.stackedWidget.currentWidget().grid_6()
-    def grid_7(self): self.stackedWidget.currentWidget().grid_7()
-    def grid_8(self): self.stackedWidget.currentWidget().grid_8()
-    def grid_9(self): self.stackedWidget.currentWidget().grid_9()
-    def grid_10(self): self.stackedWidget.currentWidget().grid_10()
-    def grid_sd(self): self.stackedWidget.currentWidget().grid_sd()
-    def grid_su(self): self.stackedWidget.currentWidget().grid_su()
-    def grid_vu(self): self.stackedWidget.currentWidget().grid_vu()
-    def grid_vd(self): self.stackedWidget.currentWidget().grid_vd()
-    def grid_mm(self): self.stackedWidget.currentWidget().grid_mm()
-    def grid_home(self): self.stackedWidget.setCurrentIndex(0)
+    def grid_1(self):
+        self.stackedWidget.currentWidget().grid_1()
+
+    def grid_2(self):
+        self.stackedWidget.currentWidget().grid_2()
+
+    def grid_3(self):
+        self.stackedWidget.currentWidget().grid_3()
+
+    def grid_4(self):
+        self.stackedWidget.currentWidget().grid_4()
+
+    def grid_5(self):
+        self.stackedWidget.currentWidget().grid_5()
+
+    def grid_6(self):
+        self.stackedWidget.currentWidget().grid_6()
+
+    def grid_7(self):
+        self.stackedWidget.currentWidget().grid_7()
+
+    def grid_8(self):
+        self.stackedWidget.currentWidget().grid_8()
+
+    def grid_9(self):
+        self.stackedWidget.currentWidget().grid_9()
+
+    def grid_10(self):
+        self.stackedWidget.currentWidget().grid_10()
+
+    def grid_sd(self):
+        self.stackedWidget.currentWidget().grid_sd()
+
+    def grid_su(self):
+        self.stackedWidget.currentWidget().grid_su()
+
+    def grid_ou(self):
+        _opacity = self.windowOpacity()
+        if _opacity < 1.0:
+            self.setWindowOpacity(_opacity + self.OPACITY_STEP)
+
+    def grid_od(self):
+        _opacity = self.windowOpacity()
+        if _opacity > 0:
+            self.setWindowOpacity(_opacity - self.OPACITY_STEP)
+
+    def grid_mm(self):
+        self.stackedWidget.currentWidget().grid_mm()
+
+    def grid_home(self):
+        self.stackedWidget.setCurrentIndex(0)
 
 
 def main():
     import sys
+
     app = QApplication(sys.argv)
 
     info_app = InfoPad()
@@ -99,8 +140,8 @@ def main():
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F13", info_app.grid_home)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_sd)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_su)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_vu)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F17", info_app.grid_vd)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_ou)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F17", info_app.grid_od)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F18", info_app.grid_mm)
 
     win_event_filter = WinEventFilter(keybinder)
@@ -110,5 +151,5 @@ def main():
     sys.exit(app.exec_())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

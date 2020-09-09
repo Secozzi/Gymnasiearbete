@@ -3,6 +3,10 @@ from PyQt5.uic import loadUi
 
 
 class Page1Widget(QWidget):
+
+    display_name = "Page 1"
+    display_icon = None
+
     def __init__(self, main_window):
         super().__init__()
         self.main_window = main_window
@@ -44,12 +48,3 @@ class Page1Widget(QWidget):
 
     def grid_su(self):
         print("Activated Num + for page1")
-
-    def grid_vu(self):
-        print("Activated Num - for page1")
-
-    def grid_vd(self):
-        print("Activated num * for page1")
-
-    def grid_mm(self):
-        print("Activated num / for page1")
