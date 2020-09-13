@@ -19,14 +19,14 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>651</width>
-      <height>72</height>
+      <width>611</width>
+      <height>81</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Cascadia Code Light</family>
-      <pointsize>36</pointsize>
+      <family>Consolas</family>
+      <pointsize>50</pointsize>
      </font>
     </property>
     <property name="text">
@@ -36,10 +36,10 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>89</y>
-      <width>711</width>
-      <height>391</height>
+      <x>60</x>
+      <y>140</y>
+      <width>511</width>
+      <height>291</height>
      </rect>
     </property>
     <property name="styleSheet">

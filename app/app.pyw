@@ -17,13 +17,15 @@ CURR_PATH = os.path.dirname(os.path.realpath(__file__))
 class InfoThread(QThread):
 
     time_s = pyqtSignal(str)
+    date_s = pyqtSignal(str)
     music = pyqtSignal(str)
 
     def run(self):
         while True:
             time_now = datetime.now()
             time.sleep(0.1)
-            self.time_s.emit(time_now.strftime("%H:%M:%S V.%V %b %d"))
+            self.time_s.emit(time_now.strftime("%H:%M:%S"))
+            #self.date_s.emit(time_now.strftim("V.%V %b %d"))
 
 
 class InfoPad(QMainWindow):
@@ -89,11 +91,8 @@ class InfoPad(QMainWindow):
     def grid_8(self):
         self.stackedWidget.currentWidget().grid_8()
 
-    def grid_9(self):
-        self.stackedWidget.currentWidget().grid_9()
-
-    def grid_10(self):
-        self.stackedWidget.currentWidget().grid_10()
+    def grid_view_o(self):
+        print("Viewing overlay")
 
     def grid_sd(self):
         self.stackedWidget.currentWidget().grid_sd()
@@ -126,23 +125,23 @@ def main():
     info_app = InfoPad()
 
     keybinder.init()
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F13", info_app.grid_1)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F14", info_app.grid_2)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F15", info_app.grid_3)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F16", info_app.grid_4)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F17", info_app.grid_5)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F18", info_app.grid_6)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F19", info_app.grid_7)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F20", info_app.grid_8)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F21", info_app.grid_9)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F22", info_app.grid_10)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F13", info_app.grid_sd)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F14", info_app.grid_su)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F15", info_app.grid_view_o)
+
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F16", info_app.grid_1)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F17", info_app.grid_2)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F18", info_app.grid_3)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F19", info_app.grid_4)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F20", info_app.grid_5)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F21", info_app.grid_6)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F22", info_app.grid_7)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F23", info_app.grid_8)
 
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F13", info_app.grid_home)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_sd)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_su)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_ou)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F17", info_app.grid_od)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F18", info_app.grid_mm)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_ou)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_od)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_mm)
 
     win_event_filter = WinEventFilter(keybinder)
     event_dispatcher = QAbstractEventDispatcher.instance()

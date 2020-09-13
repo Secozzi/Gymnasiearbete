@@ -6,6 +6,7 @@
 | 03 Sep 2020 | Skapade ett dokument för dokumentationen. | Skapa grunden för applikationen |
 | 04 Sep 2020 | Började på integration med Spotify för att visa låt. | Få det att fungera. |
 | 05 Sep 2020 | Började på implementation för olika sidor och hur alla sidor komminucerar med varandra. | Gör systemet bättre och mer flexibelt - Gör första prototyp för gränssnittet |
+| 13 Sep 2020 | Slutförde layouten för användningen, lade till prototyp för design. | Bestämma font - ändra design igen. |
 
 # Planeringsschema
 
