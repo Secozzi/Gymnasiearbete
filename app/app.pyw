@@ -25,7 +25,7 @@ class InfoThread(QThread):
             time_now = datetime.now()
             time.sleep(0.1)
             self.time_s.emit(time_now.strftime("%H:%M:%S"))
-            #self.date_s.emit(time_now.strftim("V.%V %b %d"))
+            self.date_s.emit(time_now.strftime("V.%V - %a %d %b %Y"))
 
 
 class InfoPad(QMainWindow):
@@ -53,6 +53,7 @@ class InfoPad(QMainWindow):
     def start_thread(self):
         self.i_thread = InfoThread()
         self.i_thread.time_s.connect(self.update_time)
+        self.i_thread.date_s.connect(self.update_date)
         self.i_thread.start()
 
     def add_widgets(self):
@@ -66,6 +67,9 @@ class InfoPad(QMainWindow):
 
     def update_time(self, time_s):
         self.time_string.setText(time_s)
+
+    def update_date(self, date_s):
+        self.date_string.setText(date_s)
 
     def grid_1(self):
         self.stackedWidget.currentWidget().grid_1()

@@ -13,24 +13,27 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#MainWindow {background-image: url(:/image/assets/background.png);}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="time_string">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>611</width>
-      <height>81</height>
+      <x>14</x>
+      <y>18</y>
+      <width>300</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Consolas</family>
-      <pointsize>50</pointsize>
+      <family>Cascadia Mono</family>
+      <pointsize>44</pointsize>
      </font>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>23:59:59</string>
     </property>
    </widget>
    <widget class="QStackedWidget" name="stackedWidget">
@@ -46,6 +49,44 @@
      <string notr="true">background-color: #909090</string>
     </property>
    </widget>
+   <widget class="QLabel" name="date_string">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>0</y>
+      <width>481</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>26</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>V.37 - Tue 09 Sep 2020</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="music_string">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>48</y>
+      <width>481</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>26</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>0:10 / 3:54 Creo - Eni</string>
+    </property>
+   </widget>
   </widget>
   <action name="actionHello_There">
    <property name="text">
@@ -56,6 +97,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="test_recource.qrc"/>
+ </resources>
  <connections/>
 </ui>

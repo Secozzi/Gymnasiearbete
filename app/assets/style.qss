@@ -1,2 +1,2 @@
 #MainWindow {background-image: url(app/assets/background.png);}
-#time_string {color: white;}
+#time_string, #date_string, #music_string {color: white;}
