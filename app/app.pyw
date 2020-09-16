@@ -4,12 +4,13 @@ from PyQt5.uic import loadUi
 
 from pyqtkeybind import keybinder
 from .key_binder import WinEventFilter
-from .widgets import WIDGETS
-
-import time
-from datetime import datetime
+from .widgets import WIDGETS, APPS
 
 import os
+import time
+from datetime import datetime
+from math import ceil
+
 
 CURR_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -35,6 +36,9 @@ class InfoPad(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        self.menu_grid = self.init_menu_grid(APPS)
+        print(self.menu_grid)
+
         self.current_path = CURR_PATH
         self.setWindowFlags(Qt.FramelessWindowHint)
         # self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
@@ -42,6 +46,12 @@ class InfoPad(QMainWindow):
         self.add_widgets()
         self.start_thread()
         self.show()
+
+    def init_menu_grid(self, apps):
+        menu = apps
+        while len(menu) < 9:
+            menu.append(None)
+        return menu[0:4], menu[5:9]
 
     def init_ui(self):
         loadUi(f"{CURR_PATH}/app.ui", self)

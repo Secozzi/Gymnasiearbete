@@ -7,6 +7,7 @@ class WinEventFilter(QAbstractNativeEventFilter):
     | Numpad7 - Scroll Down   - CTRL + F13        |
     | Numpad8 - Scroll Up     - CTRL + F14        |
     | Numpad9 - View Overlay  - CTRL + F15        |
+    |                                             |
     | Numpad4 - Grid 1        - CTRL + F16        |
     | Numpad5 - Grid 2        - CTRL + F17        |
     | Numpad6 - Grid 3        - CTRL + F18        |

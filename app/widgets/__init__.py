@@ -7,3 +7,5 @@ WIDGETS = [
     Page1Widget,
     Page2Widget
 ]
+
+APPS = WIDGETS[1:]

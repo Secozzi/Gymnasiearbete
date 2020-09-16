@@ -1,17 +1,21 @@
 from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
 
 class Page2Widget(QWidget):
 
     display_name = "Page 2"
-    display_icon = None
 
     def __init__(self, main_window):
         super().__init__()
         self.main_window = main_window
 
         loadUi(f"{self.main_window.current_path}/widgets/page2.ui", self)
+
+    @staticmethod
+    def get_icon():
+        return QPixmap("page2.png")
 
     def grid_1(self):
         print("Activated Num 7 for page2")
