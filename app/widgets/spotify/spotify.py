@@ -1,9 +1,10 @@
+# Shows a user's playlists
+
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 
-scope = "user-read-playback-state,user-modify-playback-state"
-sp = spotipy.Spotify(client_credentials_manager=SpotifyOAuth(scope=scope, cache_path=".cache-secozzi"))
+sp = spotipy.Spotify(auth_manager=SpotifyOAuth())
 
-# Shows playing devices
-res = sp.current_user_playing_track()
-print(res)
+results = sp.current_user_playlists(limit=50)
+for i, item in enumerate(results['items']):
+    print("%d %s" % (i, item['name']))
