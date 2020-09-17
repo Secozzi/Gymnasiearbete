@@ -9,6 +9,7 @@
 | 13 Sep 2020 | Slutförde layouten för användningen, lade till prototyp för design. | Bestämma font - ändra design igen. |
 | 14-15 Sep 2020 | Bestämde teckensnitt och gjorde en andra prototyp samt började på spotify | Få menysystemet att fungera |
 | 16 Sep 2020 | Började på grid meny | Göra klart grid meny - kolla igenom all kod |
+| 17 Sep 2020 | Borjade implementera logiken bakom grid-menyn och lade till scrollbar, mic och volym samt delar av dess logik. | Lägga till volym för program i fokus och göra färdigt grid-meny. |
 
 # Planeringsschema
 

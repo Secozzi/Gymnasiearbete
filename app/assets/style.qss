@@ -1,2 +1,22 @@
-#MainWindow {background-image: url(app/assets/background.png);}
-#time_string, #date_string, #music_string {color: white;}
+#MainWindow {
+    background-image: url(app/assets/background.png);
+}
+
+QLabel {
+    color: white;
+}
+
+#desktop_volume_meter::groove, #program_volume_meter::groove {
+    background: #6a6a6a;
+    border: 0px solid;
+}
+
+#desktop_volume_meter::handle, #program_volume_meter::handle {
+    background: #ffffff;
+    width :30px;
+    height :30px;
+}
+
+#desktop_volume_meter::add-page, #program_volume_meter::add-page {
+    background: #0076D7;
+}

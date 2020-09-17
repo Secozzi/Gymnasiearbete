@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#MainWindow {background-image: url(:/image/assets/background.png);}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="time_string">
@@ -39,10 +39,10 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>140</y>
-      <width>511</width>
-      <height>291</height>
+      <x>13</x>
+      <y>121</y>
+      <width>590</width>
+      <height>346</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -87,18 +87,262 @@
      <string>0:10 / 3:54 Creo - Eni</string>
     </property>
    </widget>
+   <widget class="QLabel" name="first_menu_label">
+    <property name="geometry">
+     <rect>
+      <x>619</x>
+      <y>159</y>
+      <width>56</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>1</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="last_menu_label">
+    <property name="geometry">
+     <rect>
+      <x>619</x>
+      <y>265</y>
+      <width>56</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>8</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scroll_up_arrow">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>125</y>
+      <width>34</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Up</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="scroll_down_arrow">
+    <property name="geometry">
+     <rect>
+      <x>630</x>
+      <y>428</y>
+      <width>34</width>
+      <height>34</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Down</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="menu_dash_label">
+    <property name="geometry">
+     <rect>
+      <x>619</x>
+      <y>234</y>
+      <width>56</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>|</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="menu_av_label">
+    <property name="geometry">
+     <rect>
+      <x>619</x>
+      <y>308</y>
+      <width>56</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>av</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="total_menu_label">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>364</y>
+      <width>56</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>13</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="mic_state_label">
+    <property name="geometry">
+     <rect>
+      <x>691</x>
+      <y>122</y>
+      <width>96</width>
+      <height>96</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mic</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="desktop_volume">
+    <property name="geometry">
+     <rect>
+      <x>742</x>
+      <y>426</y>
+      <width>36</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Desktop</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="desktop_volume_meter">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>745</x>
+      <y>228</y>
+      <width>30</width>
+      <height>158</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="program_volume_meter">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>702</x>
+      <y>228</y>
+      <width>30</width>
+      <height>158</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="program_volume">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>426</y>
+      <width>36</width>
+      <height>36</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>App</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="program_volume_label">
+    <property name="geometry">
+     <rect>
+      <x>704</x>
+      <y>394</y>
+      <width>29</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>44</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="desktop_volume_label">
+    <property name="geometry">
+     <rect>
+      <x>745</x>
+      <y>394</y>
+      <width>29</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>18</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>60</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
   </widget>
-  <action name="actionHello_There">
-   <property name="text">
-    <string>Hello There</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+F13</string>
-   </property>
-  </action>
  </widget>
- <resources>
-  <include location="test_recource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
