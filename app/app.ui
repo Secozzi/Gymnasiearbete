@@ -239,7 +239,7 @@
    <widget class="QLabel" name="desktop_volume">
     <property name="geometry">
      <rect>
-      <x>742</x>
+      <x>722</x>
       <y>426</y>
       <width>36</width>
       <height>36</height>
@@ -255,7 +255,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>745</x>
+      <x>724</x>
       <y>228</y>
       <width>30</width>
       <height>158</height>
@@ -268,61 +268,10 @@
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QSlider" name="program_volume_meter">
-    <property name="enabled">
-     <bool>false</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>702</x>
-      <y>228</y>
-      <width>30</width>
-      <height>158</height>
-     </rect>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="program_volume">
-    <property name="geometry">
-     <rect>
-      <x>700</x>
-      <y>426</y>
-      <width>36</width>
-      <height>36</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>App</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="program_volume_label">
-    <property name="geometry">
-     <rect>
-      <x>704</x>
-      <y>394</y>
-      <width>29</width>
-      <height>28</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Cascadia Mono</family>
-      <pointsize>18</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>44</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
    <widget class="QLabel" name="desktop_volume_label">
     <property name="geometry">
      <rect>
-      <x>745</x>
+      <x>724</x>
       <y>394</y>
       <width>29</width>
       <height>28</height>

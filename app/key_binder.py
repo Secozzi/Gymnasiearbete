@@ -18,9 +18,9 @@ class WinEventFilter(QAbstractNativeEventFilter):
     | Numpad+ - Grid 8        - CTRL + F23        |
     |------------------- Global ------------------|
     | Numpad, - Grid Home     - CTRL + Alt + F13  |
-    | Numpad- - Opacity Up    - CTRL + Alt + F14  |
-    | Numpad* - Opacity Down  - CTRL + Alt + F15  |
-    | Numpad/ - Mute Mic      - CTRL + Alt + F16  |
+    | Numpad- - Mute Mic      - CTRL + Alt + F14  |
+    | Numpad* - Opacity Up    - CTRL + Alt + F15  |
+    | Numpad/ - Opacity Down  - CTRL + Alt + F16  |
     | Numpad0 - Modifier      - Modifier          |
     \---------------------------------------------/
     """

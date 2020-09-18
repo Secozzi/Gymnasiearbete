@@ -11,11 +11,11 @@ class Page2Widget(QWidget):
         super().__init__()
         self.main_window = main_window
 
-        loadUi(f"{self.main_window.current_path}/widgets/page2.ui", self)
+        loadUi(f"{self.main_window.current_path}/widgets/page2/page2.ui", self)
 
     @staticmethod
-    def get_icon():
-        return QPixmap("page2.png")
+    def get_icon(curr_path):
+        return QPixmap(f"{curr_path}/widgets/page2/page2.png")
 
     def grid_1(self):
         print("Activated Num 7 for page2")

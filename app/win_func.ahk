@@ -11,7 +11,10 @@ Numpad0 & Numpad2::Send {Ctrl Down}{F21}{Ctrl Up}
 Numpad0 & Numpad3::Send {Ctrl Down}{F22}{Ctrl Up}
 Numpad0 & NumpadAdd::Send {Ctrl Down}{F23}{Ctrl Up}
 Numpad0 & NumpadDot::Send {Ctrl Down}{Alt Down}{F13}{Alt Up}{Ctrl Up}
-Numpad0 & NumpadSub::Send {Ctrl Down}{Alt Down}{F14}{Alt Up}{Ctrl Up}
+Numpad0 & NumpadSub::
+Send {Ctrl Down}{Alt Down}{Home}{Alt Up}{Ctrl Up}
+Send {Ctrl Down}{Alt Down}{F14}{Alt Up}{Ctrl Up}
+return
 Numpad0 & NumpadMult::Send {Ctrl Down}{Alt Down}{F15}{Alt Up}{Ctrl Up}
 Numpad0 & NumpadDiv::Send {Ctrl Down}{Alt Down}{F16}{Alt Up}{Ctrl Up}
 Numpad0::Send {Numpad0}

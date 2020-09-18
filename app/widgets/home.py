@@ -13,41 +13,40 @@ class HomeWidget(QWidget):
         self.main_window.set_index(1)
 
     def grid_2(self):
-        self.main_window.set_index(2)
+        if self.main_window.NO_OF_APPS >= 2:
+            self.main_window.set_index(2)
 
     def grid_3(self):
-        print("Activated Num 9 for home")
+        if self.main_window.NO_OF_APPS >= 3:
+            self.main_window.set_index(3)
 
     def grid_4(self):
-        print("Activated Num 4 for home")
+        if self.main_window.NO_OF_APPS >= 4:
+            self.main_window.set_index(4)
 
     def grid_5(self):
-        print("Activated Num 5 for home")
+        if self.main_window.NO_OF_APPS >= 5:
+            self.main_window.set_index(5)
 
     def grid_6(self):
-        print("Activated Num 6 for home")
+        if self.main_window.NO_OF_APPS >= 6:
+            self.main_window.set_index(6)
 
     def grid_7(self):
-        print("Activated Num 1 for home")
+        if self.main_window.NO_OF_APPS >= 7:
+            self.main_window.set_index(7)
 
     def grid_8(self):
-        print("Activated Num 2 for home")
-
-    def grid_9(self):
-        print("Activated Num 3 for home")
-
-    def grid_10(self):
-        print("Activated Num 0 for home")
-
-    def grid_home(self):
-        # Isn't called yet
-        print("Activated Num del for home")
+        if self.main_window.NO_OF_APPS >= 8:
+            self.main_window.set_index(8)
 
     def grid_sd(self):
-        print("Activated Num Enter for home")
+        self.main_window.scroll_down()
+        self.main_window.update_menu()
 
     def grid_su(self):
-        print("Activated Num + for home")
+        self.main_window.scroll_up()
+        self.main_window.update_menu()
 
     def grid_vu(self):
         print("Activated Num - for home")

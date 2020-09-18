@@ -4,22 +4,26 @@ from PyQt5.QtGui import QPixmap, QTransform, QFont
 from PyQt5.uic import loadUi
 
 # Audio
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 
 # Other
-import os
-import time
+from os import path
+from time import sleep
 from datetime import datetime
 from math import ceil
-
 from pyqtkeybind import keybinder
+
+# Relative
 from .key_binder import WinEventFilter
 from .widgets import WIDGETS, HomeWidget
 
 
-CURR_PATH = os.path.dirname(os.path.realpath(__file__))
+CURR_PATH = path.dirname(path.realpath(__file__))
+DEVICES = AudioUtilities.GetSpeakers()
+INTERFACE = DEVICES.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+VOLUME = cast(INTERFACE, POINTER(IAudioEndpointVolume))
 
 
 class InfoThread(QThread):
@@ -29,27 +33,31 @@ class InfoThread(QThread):
     music = pyqtSignal(str)
     desktop_volume = pyqtSignal(int)
 
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
+    REFRESH_REATE = 0.2
 
     def run(self):
         while True:
+            _master_volume = VOLUME.GetMasterVolumeLevelScalar() * 100
             time_now = datetime.now()
-            time.sleep(0.1)
+
+            sleep(self.REFRESH_REATE)
+
             self.time_s.emit(time_now.strftime("%H:%M:%S"))
             self.date_s.emit(time_now.strftime("V.%V - %a %d %b %Y"))
-            self.desktop_volume.emit(round(self.volume.GetMasterVolumeLevelScalar()*100))
+            self.desktop_volume.emit(round(_master_volume))
 
 
 class InfoPad(QMainWindow):
 
     OPACITY_STEP = 0.2
+    NO_OF_APPS = len(WIDGETS)
 
     def __init__(self):
         super().__init__()
 
         self.menu_grid = self.init_menu_grid(WIDGETS)
+        self.active_mic = True
+        self.scroll_counter = 0
 
         self.current_path = CURR_PATH
         self.setWindowFlags(Qt.FramelessWindowHint)
@@ -57,13 +65,40 @@ class InfoPad(QMainWindow):
         self.init_ui()
         self.add_widgets()
         self.start_thread()
+        self.update_menu()
         self.show()
 
     def init_menu_grid(self, apps):
         menu = list(apps)
         while len(menu) < 9:
             menu.append(None)
-        return tuple([menu[0:4], menu[5:9]])
+        return tuple(menu[0:8])
+
+    def scroll_up(self):
+        if self.scroll_counter > 0:
+            new_menu = []
+            start = (self.scroll_counter - 1) * 4
+            to_insert = list(WIDGETS[start:start + 4])
+
+            new_menu += to_insert
+            new_menu += self.menu_grid[0:4]
+            self.menu_grid = tuple(new_menu)
+            self.scroll_counter -= 1
+
+    def scroll_down(self):
+        step = ceil((self.NO_OF_APPS - 8) / 4)
+        if self.scroll_counter < step:
+            new_menu = []
+            next_item = 8 + 4 * self.scroll_counter
+            to_insert = list(WIDGETS[next_item:next_item + 4])
+
+            while len(to_insert) < 4:
+                to_insert.append(None)
+
+            new_menu += self.menu_grid[4:9]
+            new_menu += to_insert
+            self.menu_grid = tuple(new_menu)
+            self.scroll_counter += 1
 
     def init_ui(self):
         loadUi(f"{CURR_PATH}/app.ui", self)
@@ -71,6 +106,12 @@ class InfoPad(QMainWindow):
         with open(f"{CURR_PATH}/assets/style.qss") as f:
             style_sheet = f.read()
         self.setStyleSheet(style_sheet)
+
+        self.total_menu_label.setText(str(self.NO_OF_APPS))
+        if self.NO_OF_APPS < 8:
+            self.last_menu_label.setText(str(self.NO_OF_APPS))
+        else:
+            self.last_menu_label.setText("8")
 
         # Set QPixmaps
 
@@ -94,8 +135,20 @@ class InfoPad(QMainWindow):
         self.desktop_volume_meter.setMinimum(0)
         self.desktop_volume_meter.setMaximum(100)
 
-        self.program_volume_meter.setMinimum(0)
-        self.program_volume_meter.setMaximum(100)
+    def update_menu(self):
+        self.first_menu_label.setText(str(WIDGETS.index(self.menu_grid[0]) + 1))
+        self.last_menu_label.setText(str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1))
+
+        for index, app in enumerate(self.menu_grid):
+            if app:
+                home_widget = self.stackedWidget.currentWidget()
+                getattr(home_widget, f"icon_{index}").setText("")
+                getattr(home_widget, f"icon_{index}").setPixmap(app.get_icon(self.current_path))
+                getattr(home_widget, f"icon_{index}").setScaledContents(True)
+                getattr(home_widget, f"text_{index}").setText(app.display_name)
+            else:
+                getattr(home_widget, f"icon_{index}").clear()
+                getattr(home_widget, f"text_{index}").clear()
 
     def start_thread(self):
         self.i_thread = InfoThread()
@@ -171,10 +224,16 @@ class InfoPad(QMainWindow):
             self.setWindowOpacity(_opacity - self.OPACITY_STEP)
 
     def grid_mm(self):
-        self.stackedWidget.currentWidget().grid_mm()
+        if self.active_mic:
+            self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_off.png"))
+            self.active_mic = False
+        else:
+            self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_on.png"))
+            self.active_mic = True
 
     def grid_home(self):
         self.stackedWidget.setCurrentIndex(0)
+        self.update_menu()
 
 
 def main():
@@ -199,9 +258,9 @@ def main():
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F23", info_app.grid_8)
 
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F13", info_app.grid_home)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_ou)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_od)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_mm)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_mm)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_ou)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_od)
 
     win_event_filter = WinEventFilter(keybinder)
     event_dispatcher = QAbstractEventDispatcher.instance()
