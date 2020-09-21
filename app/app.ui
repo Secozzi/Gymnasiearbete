@@ -46,7 +46,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: #909090</string>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QLabel" name="date_string">
@@ -73,7 +73,7 @@
      <rect>
       <x>320</x>
       <y>48</y>
-      <width>481</width>
+      <width>461</width>
       <height>61</height>
      </rect>
     </property>

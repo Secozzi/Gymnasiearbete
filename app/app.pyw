@@ -15,6 +15,11 @@ from datetime import datetime
 from math import ceil
 from pyqtkeybind import keybinder
 
+# Spotipy
+from configparser import ConfigParser
+from spotipy import Spotify
+from spotipy.oauth2 import SpotifyOAuth
+
 # Relative
 from .key_binder import WinEventFilter
 from .widgets import WIDGETS, HomeWidget
@@ -24,6 +29,20 @@ CURR_PATH = path.dirname(path.realpath(__file__))
 DEVICES = AudioUtilities.GetSpeakers()
 INTERFACE = DEVICES.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 VOLUME = cast(INTERFACE, POINTER(IAudioEndpointVolume))
+
+credentials = ConfigParser()
+credentials.read(f"{CURR_PATH}/credentials.cfg")
+
+client_id = credentials["SPOTIPY"]["CLIENT_ID"]
+client_secret = credentials["SPOTIPY"]["CLIENT_SECRET"]
+redirect_uri = credentials["SPOTIPY"]["REDIRECT_URI"]
+
+scope = "user-read-playback-state"
+sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
+                                                     client_secret=client_secret,
+                                                     redirect_uri=redirect_uri,
+                                                     cache_path=f"{CURR_PATH}/.cache",
+                                                     scope=scope))
 
 
 class InfoThread(QThread):
@@ -36,15 +55,38 @@ class InfoThread(QThread):
     REFRESH_REATE = 0.2
 
     def run(self):
+
+        self.music_length = 22
+
         while True:
             _master_volume = VOLUME.GetMasterVolumeLevelScalar() * 100
             time_now = datetime.now()
 
-            sleep(self.REFRESH_REATE)
+            spotify_info = self.get_spotify_information()
 
             self.time_s.emit(time_now.strftime("%H:%M:%S"))
             self.date_s.emit(time_now.strftime("V.%V - %a %d %b %Y"))
             self.desktop_volume.emit(round(_master_volume))
+            self.music.emit(spotify_info)
+
+            sleep(self.REFRESH_REATE)
+
+    def get_spotify_information(self):
+        res = sp.current_playback()
+
+        if res:
+            current = self.get_length(res["progress_ms"])
+            duration = self.get_length(res["item"]["duration_ms"])
+
+            song_name = res["item"]["name"]
+
+            return f"{current}/{duration} {song_name}"[:self.music_length]
+        else:
+            return "Nothing playing currently"[:self.music_length]
+
+    def get_length(self, ms):
+        s = round(ms / 1000)
+        return f"{(s // 60):02d}:{(s % 60):02d}"
 
 
 class InfoPad(QMainWindow):
@@ -60,7 +102,7 @@ class InfoPad(QMainWindow):
         self.scroll_counter = 0
 
         self.current_path = CURR_PATH
-        self.setWindowFlags(Qt.FramelessWindowHint)
+        #self.setWindowFlags(Qt.FramelessWindowHint)
         # self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.init_ui()
         self.add_widgets()
@@ -155,6 +197,7 @@ class InfoPad(QMainWindow):
         self.i_thread.time_s.connect(self.update_time)
         self.i_thread.date_s.connect(self.update_date)
         self.i_thread.desktop_volume.connect(self.update_desktop_volume)
+        self.i_thread.music.connect(self.update_music)
         self.i_thread.start()
 
     def add_widgets(self):
@@ -180,6 +223,9 @@ class InfoPad(QMainWindow):
         self.desktop_volume_label.setText(str(d_volume))
         self.desktop_volume_meter.setValue(d_volume)
 
+    def update_music(self, playback):
+        self.music_string.setText(playback)
+
     def grid_1(self):
         self.stackedWidget.currentWidget().grid_1()
 
@@ -204,8 +250,8 @@ class InfoPad(QMainWindow):
     def grid_8(self):
         self.stackedWidget.currentWidget().grid_8()
 
-    def grid_view_o(self):
-        print("Viewing overlay")
+    def grid_9(self):
+        self.stackedWidget.currentWidget().grid_9()
 
     def grid_sd(self):
         self.stackedWidget.currentWidget().grid_sd()
@@ -223,6 +269,9 @@ class InfoPad(QMainWindow):
         if _opacity > 0:
             self.setWindowOpacity(_opacity - self.OPACITY_STEP)
 
+    def grid_view_o(self):
+        self.stackedWidget.currentWidget().grid_view_o()
+
     def grid_mm(self):
         if self.active_mic:
             self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_off.png"))
@@ -232,6 +281,7 @@ class InfoPad(QMainWindow):
             self.active_mic = True
 
     def grid_home(self):
+        self.stackedWidget.currentWidget().on_exit()
         self.stackedWidget.setCurrentIndex(0)
         self.update_menu()
 
@@ -246,7 +296,7 @@ def main():
     keybinder.init()
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F13", info_app.grid_sd)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F14", info_app.grid_su)
-    keybinder.register_hotkey(info_app.winId(), "Ctrl+F15", info_app.grid_view_o)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+F15", info_app.grid_9)
 
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F16", info_app.grid_1)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F17", info_app.grid_2)
@@ -261,6 +311,7 @@ def main():
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F14", info_app.grid_mm)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F15", info_app.grid_ou)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_od)
+    keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F17", info_app.grid_view_o)
 
     win_event_filter = WinEventFilter(keybinder)
     event_dispatcher = QAbstractEventDispatcher.instance()
