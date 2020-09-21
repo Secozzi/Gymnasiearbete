@@ -11,6 +11,7 @@
 | 16 Sep 2020 | Började på grid meny | Göra klart grid meny - kolla igenom all kod |
 | 17 Sep 2020 | Borjade implementera logiken bakom grid-menyn och lade till scrollbar, mic och volym samt delar av dess logik. | Lägga till volym för program i fokus och göra färdigt grid-meny. |
 | 18 Sep 2020 | Tog bort volym för program och lade till växling av att sätta på/stänga av mikrofon. Minskade mängden RAM som användes med 56%. Gjorde klart grid-system samt scrollning av hemskärmen. Började skriva i dokumentationen. | Fixa färdigt spotify och börja på sidorna. | 
+| 21 Sep 2020 | Fixade en bug i home-appen då den inte valde korrekt app när man hade skrollat ner. 
 
 # Planeringsschema
 
