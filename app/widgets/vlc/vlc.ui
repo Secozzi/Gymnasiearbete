@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>vlc_window</class>
+ <widget class="QWidget" name="vlc_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,20 +25,99 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>36</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>This is a template page</string>
-     </property>
-    </widget>
-   </item>
-  </layout>
+  <property name="styleSheet">
+   <string notr="true">#background {background-image: url(app/widgets/vlc/vlc_background.png);}
+
+#vlc_volume_meter::groove, #program_volume_meter::groove {
+    background: #6a6a6a;
+    border: 0px solid;
+}
+
+#vlc_volume_meter::handle, #program_volume_meter::handle {
+    background: #ffffff;
+    width :30px;
+    height :30px;
+}
+
+#vlc_volume_meter::add-page, #program_volume_meter::add-page {
+    background: #0076D7;
+}</string>
+  </property>
+  <widget class="QSlider" name="vlc_volume_meter">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>55</y>
+     <width>51</width>
+     <height>231</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="title_label">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>570</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Cascadia Mono</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Title</string>
+   </property>
+  </widget>
+  <widget class="QFrame" name="background">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>15</y>
+     <width>590</width>
+     <height>331</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="volume_label">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>280</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>75</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <resources/>
  <connections/>

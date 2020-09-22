@@ -1,1 +1,0 @@
-Send {Ctrl Down}{Alt Down}{Shift Down}{!}{Shift Up}{Alt Up}{Ctrl Up}

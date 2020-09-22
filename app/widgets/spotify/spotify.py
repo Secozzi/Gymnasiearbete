@@ -1,12 +1,13 @@
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
 
 from configparser import ConfigParser
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 import requests
+
+from pprint import pprint
 
 
 class SpotifyWidget(QWidget):
@@ -35,23 +36,30 @@ class SpotifyWidget(QWidget):
         self.sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
                                                                   client_secret=client_secret,
                                                                   redirect_uri=redirect_uri,
-                                                                  cache_path=f"{self.main_window.current_path}.cache",
+                                                                  cache_path=f"{self.main_window.current_path}/.cache",
                                                                   scope=scope))
 
         self.res = self.sp.current_playback()
 
-        largest_img = self.res["item"]["album"]["images"][0]["url"]
+        if self.res["item"]["album"]["images"]:
+            largest_img = self.res["item"]["album"]["images"][0]["url"]
+
+            self.image = requests.get(largest_img).content
+            self.image_pixmap = QPixmap()
+            self.image_pixmap.loadFromData(self.image)
+
+            self.track_icon.setPixmap(self.image_pixmap)
+        else:
+            self.image = None
+            self.image_pixmap = QPixmap(f"{self.main_window.current_path}/widgets/spotify/no_image.png")
+
+            self.track_icon.setPixmap(self.image_pixmap)
+
         song_name = self.res["item"]["name"]
         artist = self.res["item"]["artists"][0]["name"]
 
-        self.image = requests.get(largest_img).content
-        self.image_pixmap = QPixmap()
-        self.image_pixmap.loadFromData(self.image)
-
         self.track_artist.setText(artist)
         self.track_song.setText(song_name)
-
-        self.track_icon.setPixmap(self.image_pixmap)
 
     def on_exit(self):  # Deleting saves ~3 MB of RAM here
         self.track_icon.clear()
