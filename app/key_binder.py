@@ -2,7 +2,7 @@ from PyQt5.QtCore import QAbstractNativeEventFilter
 
 
 class WinEventFilter(QAbstractNativeEventFilter):
-    """
+    """Keybinds:
     /--------------- Page specific ---------------\
     | Numpad7 - Scroll Down   - CTRL + F13        |
     | Numpad8 - Scroll Up     - CTRL + F14        |

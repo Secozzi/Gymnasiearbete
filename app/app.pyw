@@ -1,4 +1,5 @@
-from PyQt5.QtCore import QAbstractEventDispatcher, Qt, pyqtSignal, QThread
+# Pyqt5
+from PyQt5.QtCore import QAbstractEventDispatcher, pyqtSignal, QThread
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtGui import QPixmap, QTransform, QFont
 from PyQt5.uic import loadUi
@@ -25,11 +26,13 @@ from .key_binder import WinEventFilter
 from .widgets import WIDGETS, HomeWidget
 
 
+# Get audio device
 CURR_PATH = path.dirname(path.realpath(__file__))
 DEVICES = AudioUtilities.GetSpeakers()
 INTERFACE = DEVICES.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
 VOLUME = cast(INTERFACE, POINTER(IAudioEndpointVolume))
 
+# Get spotify credentils from credentials.cfg
 credentials = ConfigParser()
 credentials.read(f"{CURR_PATH}/credentials.cfg")
 
@@ -46,6 +49,18 @@ sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
 
 
 class InfoThread(QThread):
+    """QThread that gets information and sends it to the main application
+
+    Signals:
+    time_s - str
+        Current time
+    date_s - str
+        Current date
+    music - str
+        Song name, progress, and duration from a Spotify instance
+    desktop_volume - int
+        System volume in percentage (1-100)
+    """
 
     time_s = pyqtSignal(str)
     date_s = pyqtSignal(str)
@@ -72,6 +87,7 @@ class InfoThread(QThread):
             sleep(self.REFRESH_REATE)
 
     def get_spotify_information(self):
+        """Get song name, duration, and progress from a Spotify instance."""
         res = sp.current_playback()
 
         if res:
@@ -110,7 +126,8 @@ class InfoPad(QMainWindow):
         self.update_menu()
         self.show()
 
-    def init_menu_grid(self, apps):
+    @staticmethod
+    def init_menu_grid(apps: tuple) -> tuple:
         menu = list(apps)
         while len(menu) < 9:
             menu.append(None)
@@ -206,13 +223,13 @@ class InfoPad(QMainWindow):
             self.stackedWidget.addWidget(_widget)
         self.stackedWidget.setCurrentIndex(0)
 
-    def set_index(self, index):
+    def set_index(self, index: int):
         self.stackedWidget.setCurrentIndex(index)
 
-    def update_time(self, time_s):
+    def update_time(self, time_s: str):
         self.time_string.setText(time_s)
 
-    def update_date(self, date_s):
+    def update_date(self, date_s: str):
         self.date_string.setText(date_s)
 
     def update_desktop_volume(self, d_volume):
