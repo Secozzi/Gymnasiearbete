@@ -69,7 +69,7 @@ class InfoThread(QThread):
 
     REFRESH_REATE = 0.2
 
-    def run(self):
+    def run(self) -> None:
 
         self.music_length = 22
 
@@ -86,7 +86,7 @@ class InfoThread(QThread):
 
             sleep(self.REFRESH_REATE)
 
-    def get_spotify_information(self):
+    def get_spotify_information(self) -> str:
         """Get song name, duration, and progress from a Spotify instance."""
         res = sp.current_playback()
 
@@ -110,7 +110,7 @@ class InfoPad(QMainWindow):
     OPACITY_STEP = 0.2
     NO_OF_APPS = len(WIDGETS)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.menu_grid = self.init_menu_grid(WIDGETS)
@@ -133,7 +133,7 @@ class InfoPad(QMainWindow):
             menu.append(None)
         return tuple(menu[0:8])
 
-    def scroll_up(self):
+    def scroll_up(self) -> None:
         if self.scroll_counter > 0:
             new_menu = []
             start = (self.scroll_counter - 1) * 4
@@ -144,7 +144,7 @@ class InfoPad(QMainWindow):
             self.menu_grid = tuple(new_menu)
             self.scroll_counter -= 1
 
-    def scroll_down(self):
+    def scroll_down(self) -> None:
         step = ceil((self.NO_OF_APPS - 8) / 4)
         if self.scroll_counter < step:
             new_menu = []
@@ -159,7 +159,7 @@ class InfoPad(QMainWindow):
             self.menu_grid = tuple(new_menu)
             self.scroll_counter += 1
 
-    def init_ui(self):
+    def init_ui(self) -> None:
         loadUi(f"{CURR_PATH}/app.ui", self)
 
         with open(f"{CURR_PATH}/assets/style.qss") as f:
@@ -194,7 +194,7 @@ class InfoPad(QMainWindow):
         self.desktop_volume_meter.setMinimum(0)
         self.desktop_volume_meter.setMaximum(100)
 
-    def update_menu(self):
+    def update_menu(self) -> None:
         self.first_menu_label.setText(str(WIDGETS.index(self.menu_grid[0]) + 1))
         self.last_menu_label.setText(str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1))
 
@@ -209,7 +209,7 @@ class InfoPad(QMainWindow):
                 getattr(home_widget, f"icon_{index}").clear()
                 getattr(home_widget, f"text_{index}").clear()
 
-    def start_thread(self):
+    def start_thread(self) -> None:
         self.i_thread = InfoThread()
         self.i_thread.time_s.connect(self.update_time)
         self.i_thread.date_s.connect(self.update_date)
@@ -217,22 +217,22 @@ class InfoPad(QMainWindow):
         self.i_thread.music.connect(self.update_music)
         self.i_thread.start()
 
-    def add_widgets(self):
+    def add_widgets(self) -> None:
         for widget in [HomeWidget] + list(WIDGETS):
             _widget = widget(self)
             self.stackedWidget.addWidget(_widget)
         self.stackedWidget.setCurrentIndex(0)
 
-    def set_index(self, index: int):
+    def set_index(self, index: int) -> None:
         self.stackedWidget.setCurrentIndex(index)
 
-    def update_time(self, time_s: str):
+    def update_time(self, time_s: str) -> None:
         self.time_string.setText(time_s)
 
-    def update_date(self, date_s: str):
+    def update_date(self, date_s: str) -> None:
         self.date_string.setText(date_s)
 
-    def update_desktop_volume(self, d_volume):
+    def update_desktop_volume(self, d_volume: int) -> None:
         if d_volume == 100:
             self.desktop_volume_label.setFont(QFont("Cascadia Mono", 10))
         else:
@@ -240,56 +240,56 @@ class InfoPad(QMainWindow):
         self.desktop_volume_label.setText(str(d_volume))
         self.desktop_volume_meter.setValue(d_volume)
 
-    def update_music(self, playback):
+    def update_music(self, playback: str) -> None:
         self.music_string.setText(playback)
 
-    def grid_1(self):
+    def grid_1(self) -> None:
         self.stackedWidget.currentWidget().grid_1()
 
-    def grid_2(self):
+    def grid_2(self) -> None:
         self.stackedWidget.currentWidget().grid_2()
 
-    def grid_3(self):
+    def grid_3(self) -> None:
         self.stackedWidget.currentWidget().grid_3()
 
-    def grid_4(self):
+    def grid_4(self) -> None:
         self.stackedWidget.currentWidget().grid_4()
 
-    def grid_5(self):
+    def grid_5(self) -> None:
         self.stackedWidget.currentWidget().grid_5()
 
-    def grid_6(self):
+    def grid_6(self) -> None:
         self.stackedWidget.currentWidget().grid_6()
 
-    def grid_7(self):
+    def grid_7(self) -> None:
         self.stackedWidget.currentWidget().grid_7()
 
-    def grid_8(self):
+    def grid_8(self) -> None:
         self.stackedWidget.currentWidget().grid_8()
 
-    def grid_9(self):
+    def grid_9(self) -> None:
         self.stackedWidget.currentWidget().grid_9()
 
-    def grid_sd(self):
+    def grid_sd(self) -> None:
         self.stackedWidget.currentWidget().grid_sd()
 
-    def grid_su(self):
+    def grid_su(self) -> None:
         self.stackedWidget.currentWidget().grid_su()
 
-    def grid_ou(self):
+    def grid_ou(self) -> None:
         _opacity = self.windowOpacity()
         if _opacity < 1.0:
             self.setWindowOpacity(_opacity + self.OPACITY_STEP)
 
-    def grid_od(self):
+    def grid_od(self) -> None:
         _opacity = self.windowOpacity()
         if _opacity > 0:
             self.setWindowOpacity(_opacity - self.OPACITY_STEP)
 
-    def grid_view_o(self):
+    def grid_view_o(self) -> None:
         self.stackedWidget.currentWidget().grid_view_o()
 
-    def grid_mm(self):
+    def grid_mm(self) -> None:
         if self.active_mic:
             self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_off.png"))
             self.active_mic = False
@@ -297,13 +297,13 @@ class InfoPad(QMainWindow):
             self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_on.png"))
             self.active_mic = True
 
-    def grid_home(self):
+    def grid_home(self) -> None:
         self.stackedWidget.currentWidget().on_exit()
         self.stackedWidget.setCurrentIndex(0)
         self.update_menu()
 
 
-def main():
+def main() -> None:
     import sys
 
     app = QApplication(sys.argv)

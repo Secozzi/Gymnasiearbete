@@ -7,13 +7,11 @@ from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
 import requests
 
-from pprint import pprint
-
 
 class SpotifyWidget(QWidget):
     display_name = "Spotify"
 
-    def __init__(self, main_window):
+    def __init__(self, main_window) -> None:
         super().__init__()
         self.main_window = main_window
 
@@ -21,10 +19,10 @@ class SpotifyWidget(QWidget):
         self.track_icon.setScaledContents(True)
 
     @staticmethod
-    def get_icon(curr_path):
+    def get_icon(curr_path: str) -> QPixmap:
         return QPixmap(f"{curr_path}/widgets/spotify/spotify.png")
 
-    def on_enter(self):
+    def on_enter(self) -> None:
         self.credentials = ConfigParser()
         self.credentials.read(f"{self.main_window.current_path}/credentials.cfg")
 
@@ -61,7 +59,7 @@ class SpotifyWidget(QWidget):
         self.track_artist.setText(artist)
         self.track_song.setText(song_name)
 
-    def on_exit(self):  # Deleting saves ~3 MB of RAM here
+    def on_exit(self) -> None:  # Deleting saves ~3 MB of RAM here
         self.track_icon.clear()
         self.track_artist.clear()
         self.track_song.clear()
@@ -72,38 +70,38 @@ class SpotifyWidget(QWidget):
         del self.res
         del self.sp
 
-    def grid_1(self):
+    def grid_1(self) -> None:
         pass  # Num 4
 
-    def grid_2(self):
+    def grid_2(self) -> None:
         pass  # Num 5
 
-    def grid_3(self):
+    def grid_3(self) -> None:
         pass  # Num 6
 
-    def grid_4(self):
+    def grid_4(self) -> None:
         pass  # Num +
 
-    def grid_5(self):
+    def grid_5(self) -> None:
         pass  # Num 1
 
-    def grid_6(self):
+    def grid_6(self) -> None:
         pass  # Num 2
 
-    def grid_7(self):
+    def grid_7(self) -> None:
         pass  # Num 3
 
-    def grid_8(self):
+    def grid_8(self) -> None:
         pass  # Num Enter
 
-    def grid_9(self):
+    def grid_9(self) -> None:
         pass  # Num 9
 
-    def grid_sd(self):
+    def grid_sd(self) -> None:
         pass  # Num 7
 
-    def grid_su(self):
+    def grid_su(self) -> None:
         pass  # Num 8
 
-    def grid_view_o(self):
+    def grid_view_o(self) -> None:
         pass  # Num Page Down

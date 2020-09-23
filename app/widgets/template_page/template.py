@@ -7,54 +7,54 @@ class TemplateWidget(QWidget):
 
     display_name = "Template"
 
-    def __init__(self, main_window):
+    def __init__(self, main_window) -> None:
         super().__init__()
         self.main_window = main_window
 
         loadUi(f"{self.main_window.current_path}/widgets/template_page/template.ui", self)
 
     @staticmethod
-    def get_icon(curr_path):
+    def get_icon(curr_path: str) -> QPixmap:
         return QPixmap(f"{curr_path}/widgets/template_page/template.png")
 
-    def on_enter(self):
+    def on_enter(self) -> None:
         pass  # Called on enter
 
-    def on_exit(self):
+    def on_exit(self) -> None:
         pass  # Called on exit
 
-    def grid_1(self):
+    def grid_1(self) -> None:
         pass  # Num 4
 
-    def grid_2(self):
+    def grid_2(self) -> None:
         pass  # Num 5
 
-    def grid_3(self):
+    def grid_3(self) -> None:
         pass  # Num 6
 
-    def grid_4(self):
+    def grid_4(self) -> None:
         pass  # Num +
 
-    def grid_5(self):
+    def grid_5(self) -> None:
         pass  # Num 1
 
-    def grid_6(self):
+    def grid_6(self) -> None:
         pass  # Num 2
 
-    def grid_7(self):
+    def grid_7(self) -> None:
         pass  # Num 3
 
-    def grid_8(self):
+    def grid_8(self) -> None:
         pass  # Num Enter
 
-    def grid_9(self):
+    def grid_9(self) -> None:
         pass  # Num 9
 
-    def grid_sd(self):
+    def grid_sd(self) -> None:
         pass  # Num 7
 
-    def grid_su(self):
+    def grid_su(self) -> None:
         pass  # Num 8
 
-    def grid_view_o(self):
+    def grid_view_o(self) -> None:
         pass  # Num Page Down
