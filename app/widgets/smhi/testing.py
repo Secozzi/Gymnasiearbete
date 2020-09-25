@@ -2,7 +2,7 @@ from pprint import pprint
 
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 LONGITUDE = 11.974546
@@ -28,6 +28,7 @@ def get_info(data):
 
     _time = data["validTime"]
     time = datetime.strptime(_time, "%Y-%m-%dT%H:%M:%SZ")
+    pprint(str(time + timedelta(hours=2)))
 
     for param in _parameters:
         if param["name"] == "t":
@@ -35,14 +36,17 @@ def get_info(data):
         elif param["name"] == "pmean":
             precipitation = str(param["values"][0])
         elif param["name"] == "msl":
-            pprint(param["values"][0])
+            pass
+            #pprint(param["values"][0])
         elif param["name"] == "ws":
             wind_speed = float(param["values"][0])
-            pprint(wind_speed)
+            #pprint(wind_speed)
 
-    pprint(str(time))
+    #pprint(str(time))
     pprint(temp)
     pprint(precipitation)
+    pprint("------------------------")
 
 
-get_info(get_data()["timeSeries"][3])
+#get_info(get_data()["timeSeries"][0])
+[get_info(get_data()["timeSeries"][i]) for i in range(12)]
