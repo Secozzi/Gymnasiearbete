@@ -20,6 +20,7 @@ from pyqtkeybind import keybinder
 from configparser import ConfigParser
 from spotipy import Spotify
 from spotipy.oauth2 import SpotifyOAuth
+from requests.exceptions import ReadTimeout
 
 # Relative
 from .key_binder import WinEventFilter
@@ -88,7 +89,10 @@ class InfoThread(QThread):
 
     def get_spotify_information(self) -> str:
         """Get song name, duration, and progress from a Spotify instance."""
-        res = sp.current_playback()
+        try:
+            res = sp.current_playback()
+        except ReadTimeout:
+            res = None
 
         if res:
             current = self.get_length(res["progress_ms"])

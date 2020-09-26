@@ -28,7 +28,6 @@ def get_info(data):
 
     _time = data["validTime"]
     time = datetime.strptime(_time, "%Y-%m-%dT%H:%M:%SZ")
-    pprint(str(time + timedelta(hours=2)))
 
     for param in _parameters:
         if param["name"] == "t":
@@ -42,11 +41,13 @@ def get_info(data):
             wind_speed = float(param["values"][0])
             #pprint(wind_speed)
 
-    #pprint(str(time))
-    pprint(temp)
-    pprint(precipitation)
+    pprint(f"Tid: {str(time + timedelta(hours=2))}")
+    pprint(f"Temperatur: {temp}")
+    pprint(f"Nederbörd: {precipitation}")
     pprint("------------------------")
 
 
 #get_info(get_data()["timeSeries"][0])
-[get_info(get_data()["timeSeries"][i]) for i in range(12)]
+
+_data = get_data()
+[get_info(_data["timeSeries"][i]) for i in range(12)]
