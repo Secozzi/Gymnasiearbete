@@ -7,7 +7,7 @@ QLabel {
 }
 
 #desktop_volume_meter::groove, #program_volume_meter::groove {
-    background: #6a6a6a;
+    background: #2a2a2a;
     border: 0px solid;
 }
 

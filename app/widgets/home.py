@@ -54,6 +54,9 @@ class HomeWidget(QWidget):
             self.main_window.set_index(8 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
+    def grid_9(self):
+        self.main_window.showFullScreen()
+
     def grid_sd(self):
         self.main_window.scroll_down()
         self.main_window.update_menu()

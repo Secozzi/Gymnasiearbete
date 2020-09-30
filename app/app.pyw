@@ -1,112 +1,22 @@
-# Pyqt5
-from PyQt5.QtCore import QAbstractEventDispatcher, pyqtSignal, QThread
-from PyQt5.QtWidgets import QApplication, QMainWindow
+# PyQt5
+from PyQt5.QtCore import QAbstractEventDispatcher, Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow, QDesktopWidget
 from PyQt5.QtGui import QPixmap, QTransform, QFont
 from PyQt5.uic import loadUi
 
-# Audio
-from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
-from ctypes import cast, POINTER
-from comtypes import CLSCTX_ALL
-
 # Other
 from os import path
-from time import sleep
-from datetime import datetime
 from math import ceil
+from subprocess import call
 from pyqtkeybind import keybinder
-
-# Spotipy
-from configparser import ConfigParser
-from spotipy import Spotify
-from spotipy.oauth2 import SpotifyOAuth
-from requests.exceptions import ReadTimeout
 
 # Relative
 from .key_binder import WinEventFilter
 from .widgets import WIDGETS, HomeWidget
+from .infothread import InfoThread
 
 
-# Get audio device
 CURR_PATH = path.dirname(path.realpath(__file__))
-DEVICES = AudioUtilities.GetSpeakers()
-INTERFACE = DEVICES.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-VOLUME = cast(INTERFACE, POINTER(IAudioEndpointVolume))
-
-# Get spotify credentils from credentials.cfg
-credentials = ConfigParser()
-credentials.read(f"{CURR_PATH}/credentials.cfg")
-
-client_id = credentials["SPOTIPY"]["CLIENT_ID"]
-client_secret = credentials["SPOTIPY"]["CLIENT_SECRET"]
-redirect_uri = credentials["SPOTIPY"]["REDIRECT_URI"]
-
-scope = "user-read-playback-state"
-sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
-                                                     client_secret=client_secret,
-                                                     redirect_uri=redirect_uri,
-                                                     cache_path=f"{CURR_PATH}/.cache",
-                                                     scope=scope))
-
-
-class InfoThread(QThread):
-    """QThread that gets information and sends it to the main application
-
-    Signals:
-    time_s - str
-        Current time
-    date_s - str
-        Current date
-    music - str
-        Song name, progress, and duration from a Spotify instance
-    desktop_volume - int
-        System volume in percentage (1-100)
-    """
-
-    time_s = pyqtSignal(str)
-    date_s = pyqtSignal(str)
-    music = pyqtSignal(str)
-    desktop_volume = pyqtSignal(int)
-
-    REFRESH_REATE = 0.2
-
-    def run(self) -> None:
-
-        self.music_length = 22
-
-        while True:
-            _master_volume = VOLUME.GetMasterVolumeLevelScalar() * 100
-            time_now = datetime.now()
-
-            spotify_info = self.get_spotify_information()
-
-            self.time_s.emit(time_now.strftime("%H:%M:%S"))
-            self.date_s.emit(time_now.strftime("V.%V - %a %d %b %Y"))
-            self.desktop_volume.emit(round(_master_volume))
-            self.music.emit(spotify_info)
-
-            sleep(self.REFRESH_REATE)
-
-    def get_spotify_information(self) -> str:
-        """Get song name, duration, and progress from a Spotify instance."""
-        try:
-            res = sp.current_playback()
-        except ReadTimeout:
-            res = None
-
-        if res:
-            current = self.get_length(res["progress_ms"])
-            duration = self.get_length(res["item"]["duration_ms"])
-
-            song_name = res["item"]["name"]
-
-            return f"{current}/{duration} {song_name}"[:self.music_length]
-        else:
-            return "Nothing playing currently"[:self.music_length]
-
-    def get_length(self, ms):
-        s = round(ms / 1000)
-        return f"{(s // 60):02d}:{(s % 60):02d}"
 
 
 class InfoPad(QMainWindow):
@@ -122,8 +32,10 @@ class InfoPad(QMainWindow):
         self.scroll_counter = 0
 
         self.current_path = CURR_PATH
+        #call([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
+        self.i_thread = InfoThread()
         #self.setWindowFlags(Qt.FramelessWindowHint)
-        # self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
+        #self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.init_ui()
         self.add_widgets()
         self.start_thread()
@@ -177,7 +89,6 @@ class InfoPad(QMainWindow):
             self.last_menu_label.setText("8")
 
         # Set QPixmaps
-
         self.scroll_up_arrow.setText("")
         self.scroll_up_arrow.setPixmap(QPixmap(f"{self.current_path}/assets/scroll_bar_arrow.png"))
         self.scroll_up_arrow.setScaledContents(True)
@@ -214,7 +125,6 @@ class InfoPad(QMainWindow):
                 getattr(home_widget, f"text_{index}").clear()
 
     def start_thread(self) -> None:
-        self.i_thread = InfoThread()
         self.i_thread.time_s.connect(self.update_time)
         self.i_thread.date_s.connect(self.update_date)
         self.i_thread.desktop_volume.connect(self.update_desktop_volume)
@@ -291,7 +201,8 @@ class InfoPad(QMainWindow):
             self.setWindowOpacity(_opacity - self.OPACITY_STEP)
 
     def grid_view_o(self) -> None:
-        self.stackedWidget.currentWidget().grid_view_o()
+        self.i_thread.refresh_spotify()
+        #self.stackedWidget.currentWidget().grid_view_o()
 
     def grid_mm(self) -> None:
         if self.active_mic:
@@ -337,6 +248,11 @@ def main() -> None:
     win_event_filter = WinEventFilter(keybinder)
     event_dispatcher = QAbstractEventDispatcher.instance()
     event_dispatcher.installNativeEventFilter(win_event_filter)
+
+    if QDesktopWidget().screenCount() == 3:
+        monitor = QDesktopWidget().screenGeometry(2)
+        info_app.move(monitor.left(), monitor.top())
+        info_app.showFullScreen()
 
     sys.exit(app.exec_())
 

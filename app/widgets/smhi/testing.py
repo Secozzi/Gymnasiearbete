@@ -28,6 +28,7 @@ def get_info(data):
 
     _time = data["validTime"]
     time = datetime.strptime(_time, "%Y-%m-%dT%H:%M:%SZ")
+    pprint(f"Tid: {str(time + timedelta(hours=2))}")
 
     for param in _parameters:
         if param["name"] == "t":
@@ -36,12 +37,11 @@ def get_info(data):
             precipitation = str(param["values"][0])
         elif param["name"] == "msl":
             pass
-            #pprint(param["values"][0])
+            pprint(f'Lufttryck: {param["values"][0]}')
         elif param["name"] == "ws":
             wind_speed = float(param["values"][0])
-            #pprint(wind_speed)
+            pprint(f"Vind: {wind_speed}")
 
-    pprint(f"Tid: {str(time + timedelta(hours=2))}")
     pprint(f"Temperatur: {temp}")
     pprint(f"Nederbörd: {precipitation}")
     pprint("------------------------")
