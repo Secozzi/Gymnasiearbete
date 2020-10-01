@@ -17,6 +17,7 @@
 | 25 Sep 2020 | Fortsatte med väder | Fortsätta med väder |
 | 26 Sep 2020 | Fixade bug med Spotify. Fortsatte med väder. Omorganiserade lite | Fortsätta med väder |
 | 30 Sep 2020 | Började med den visuella delan för väder | Göra klart väder, börja på rapportskrivande |
+| 01 Okt 2020 | Fortsatte med väder | Göra klart väder, börja på appstartare |
 
 # Planeringsschema
 
