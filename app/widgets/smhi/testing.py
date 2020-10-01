@@ -36,7 +36,6 @@ def get_info(data):
         elif param["name"] == "pmean":
             precipitation = str(param["values"][0])
         elif param["name"] == "msl":
-            pass
             pprint(f'Lufttryck: {param["values"][0]}')
         elif param["name"] == "ws":
             wind_speed = float(param["values"][0])

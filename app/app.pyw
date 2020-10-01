@@ -7,7 +7,7 @@ from PyQt5.uic import loadUi
 # Other
 from os import path
 from math import ceil
-from subprocess import call
+from subprocess import Popen
 from pyqtkeybind import keybinder
 
 # Relative
@@ -32,7 +32,8 @@ class InfoPad(QMainWindow):
         self.scroll_counter = 0
 
         self.current_path = CURR_PATH
-        #call([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
+        Popen([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
+
         self.i_thread = InfoThread()
         #self.setWindowFlags(Qt.FramelessWindowHint)
         #self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)

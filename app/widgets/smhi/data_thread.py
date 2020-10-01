@@ -25,15 +25,34 @@ class SmhiThread(QThread):
         data = self.get_data()
         output = {}
 
-    def get_data(self):
-        if self.LOAD_FROM_WEBSITE:
-            smhi_link = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/"
-            data_link = smhi_link + "geotype/point/lon/" + str(self.LONGITUDE) + "/lat/" + str(self.LATITUDE) + "/"
-            data_link += "data.json"
+        for i in range(24):
+            _data = data["timeSeries"][i]
+            parameters = _data["parameters"]
 
-            return json.loads(requests.get(data_link).text)
-        else:
-            with open(r"C:\Users\folke\OneDrive\Documents\Programmering\Python\Github\Gymnasiearbete\app\widgets\smhi"
-                      r"\data.json", "r") as json_file:
-                data = json.load(json_file)
-            return data
+            time = datetime.strptime(_data["validTime"], "%Y-%m-%dT%H:%M:%SZ")
+            time = time + timedelta(hours=2)
+            time = str(datetime.strftime(time, "%H:%M"))
+
+            param_list = [time]
+
+            for param in parameters:
+                if param["name"] == "t":
+                    temp = str(round(float(param["values"][0])))
+                    param_list.append(temp)
+                elif param["name"] == "pmean":
+                    precipitation = str(param["values"][0])
+                    param_list.append(precipitation)
+                elif param["name"] == "Wsymb2":
+                    symbol = int(param["values"][0])
+                    param_list.append(symbol)
+
+            output[i] = param_list
+
+        self.weather_info.emit(output)
+
+    def get_data(self) -> dict:
+        smhi_link = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/"
+        data_link = smhi_link + "geotype/point/lon/" + str(self.LONGITUDE) + "/lat/" + str(self.LATITUDE) + "/"
+        data_link += "data.json"
+
+        return json.loads(requests.get(data_link).text)

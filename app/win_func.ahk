@@ -1,3 +1,4 @@
+#SingleInstance force
 SetNumLockState, AlwaysOn
 Numpad0 & Numpad7::Send {Ctrl Down}{F13}{Ctrl Up}
 Numpad0 & Numpad8::Send {Ctrl Down}{F14}{Ctrl Up}

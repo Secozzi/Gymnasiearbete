@@ -2,6 +2,9 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
+from .data_thread import SmhiThread
+from pprint import pprint
+
 
 class SmhiWidget(QWidget):
 
@@ -10,6 +13,7 @@ class SmhiWidget(QWidget):
     def __init__(self, main_window) -> None:
         super().__init__()
         self.main_window = main_window
+        self.data_thead = SmhiThread()
 
         loadUi(f"{self.main_window.current_path}/widgets/smhi/smhi.ui", self)
 
@@ -17,8 +21,13 @@ class SmhiWidget(QWidget):
     def get_icon(curr_path: str) -> QPixmap:
         return QPixmap(f"{curr_path}/widgets/smhi/smhi.png")
 
+    def update_ui(self, input_dic):
+        pprint("Called from thread")
+        pprint(input_dic)
+
     def on_enter(self) -> None:
-        pass  # Called on enter
+        self.data_thead.weather_info.connect(self.update_ui)
+        self.data_thead.start()
 
     def on_exit(self) -> None:
         pass  # Called on exit
