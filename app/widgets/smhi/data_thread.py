@@ -19,7 +19,6 @@ class SmhiThread(QThread):
 
     LONGITUDE = 11.974546
     LATITUDE = 57.690388
-    LOAD_FROM_WEBSITE = False
 
     def run(self) -> None:
         data = self.get_data()
