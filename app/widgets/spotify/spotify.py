@@ -39,36 +39,45 @@ class SpotifyWidget(QWidget):
 
         self.res = self.sp.current_playback()
 
-        if self.res["item"]["album"]["images"]:
-            largest_img = self.res["item"]["album"]["images"][0]["url"]
+        if self.res:
+            if self.res["item"]["album"]["images"]:
+                largest_img = self.res["item"]["album"]["images"][0]["url"]
 
-            self.image = requests.get(largest_img).content
-            self.image_pixmap = QPixmap()
-            self.image_pixmap.loadFromData(self.image)
+                self.image = requests.get(largest_img).content
+                self.image_pixmap = QPixmap()
+                self.image_pixmap.loadFromData(self.image)
 
-            self.track_icon.setPixmap(self.image_pixmap)
+                self.track_icon.setPixmap(self.image_pixmap)
+            else:
+                self.image = None
+                self.image_pixmap = QPixmap(f"{self.main_window.current_path}/widgets/spotify/no_image.png")
+
+                self.track_icon.setPixmap(self.image_pixmap)
+
+            song_name = self.res["item"]["name"]
+            artist = self.res["item"]["artists"][0]["name"]
+
+            self.track_artist.setText(artist)
+            self.track_song.setText(song_name)
         else:
             self.image = None
             self.image_pixmap = QPixmap(f"{self.main_window.current_path}/widgets/spotify/no_image.png")
 
             self.track_icon.setPixmap(self.image_pixmap)
-
-        song_name = self.res["item"]["name"]
-        artist = self.res["item"]["artists"][0]["name"]
-
-        self.track_artist.setText(artist)
-        self.track_song.setText(song_name)
+            self.track_artist.setText("Nothing playing")
+            self.track_song.setText("Nothing playing")
 
     def on_exit(self) -> None:  # Deleting saves ~3 MB of RAM here
         self.track_icon.clear()
         self.track_artist.clear()
         self.track_song.clear()
 
-        del self.image
-        del self.image_pixmap
-        del self.credentials
-        del self.res
-        del self.sp
+        if self.res:
+            del self.image
+            del self.image_pixmap
+            del self.credentials
+            del self.res
+            del self.sp
 
     def grid_1(self) -> None:
         pass  # Num 4

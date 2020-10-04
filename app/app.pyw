@@ -9,6 +9,7 @@ from os import path
 from math import ceil
 from subprocess import Popen
 from pyqtkeybind import keybinder
+#import keyboard
 
 # Relative
 from .key_binder import WinEventFilter
@@ -32,7 +33,7 @@ class InfoPad(QMainWindow):
         self.scroll_counter = 0
 
         self.current_path = CURR_PATH
-        Popen([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
+        #Popen([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
 
         self.i_thread = InfoThread()
         #self.setWindowFlags(Qt.FramelessWindowHint)
@@ -225,6 +226,29 @@ def main() -> None:
     app = QApplication(sys.argv)
 
     info_app = InfoPad()
+
+    #keyboard.on_press_key("0", what, suppress=True)
+    #keyboard.hook_key("2", something, suppress=True)
+    #keyboard.add_hotkey("0+1", something, suppress=True)
+    #
+    #add_hotkey("0+7", info_app.grid_sd, suppress=True)
+    #add_hotkey("0+8", info_app.grid_su)
+    #add_hotkey("0+9", info_app.grid_9)
+    #
+    #add_hotkey("0+4", info_app.grid_1)
+    #add_hotkey("0+5", info_app.grid_2)
+    #add_hotkey("0+6", info_app.grid_3)
+    #add_hotkey("0+'+'", info_app.grid_4)
+    #add_hotkey("0+1", info_app.grid_5)
+    #add_hotkey("0+2", info_app.grid_6)
+    #add_hotkey("0+3", info_app.grid_7)
+    #add_hotkey("0+Enter", info_app.grid_8)
+    #
+    #add_hotkey("0+delete", info_app.grid_home)
+    #add_hotkey("0+-", info_app.grid_mm)
+    #add_hotkey("0+*", info_app.grid_ou)
+    #add_hotkey("0+/", info_app.grid_od)
+    #add_hotkey("0+page down", info_app.grid_view_o)
 
     keybinder.init()
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F13", info_app.grid_sd)

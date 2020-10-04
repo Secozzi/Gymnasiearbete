@@ -83,7 +83,7 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 ## 4 Källförteckning
 
 * https://doc.qt.io/qtforpython/
-* https://github.com/codito/pyqtkeybind
+* https://github.com/boppreh/keyboard
 * https://docs.python.org/3/
 
 ## 5 Bilagor

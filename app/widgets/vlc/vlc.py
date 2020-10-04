@@ -2,6 +2,8 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
+from .vlc_thread import VLCThread
+
 from telnetlib import Telnet
 from socket import error as socketerror
 from configparser import ConfigParser
@@ -90,6 +92,7 @@ class VLCWidget(QWidget):
     def __init__(self, main_window) -> None:
         super().__init__()
         self.main_window = main_window
+        self.data_thread = VLCThread(self.main_window.current_path)
 
         loadUi(f"{self.main_window.current_path}/widgets/vlc/vlc.ui", self)
 
@@ -101,23 +104,36 @@ class VLCWidget(QWidget):
         return QPixmap(f"{curr_path}/widgets/vlc/vlc.png")
 
     def on_enter(self) -> None:
-        self.vlc_app = VLCController("127.0.0.1", 4212)
-        self.vlc_running = self.vlc_app.vlc_running
-        if self.vlc_running:
-            credentials = ConfigParser()
-            credentials.read(f"{self.main_window.current_path}/credentials.cfg")
-            vlc_password = credentials["VLC"]["PASSWORD"]
+        try:
+            self.data_thread.vlc_title.connect(self.update_title)
+            self.data_thread.vlc_volume.connect(self.update_volume)
+            self.data_thread.start()
+        except Exception as e:
+            print(e)
+        #self.vlc_app = VLCController("127.0.0.1", 4212)
+        #self.vlc_running = self.vlc_app.vlc_running
+        #if self.vlc_running:
+        #    credentials = ConfigParser()
+        #    credentials.read(f"{self.main_window.current_path}/credentials.cfg")
+        #    vlc_password = credentials["VLC"]["PASSWORD"]
+        #
+        #    self.vlc_app.set_password(vlc_password)
+        #
+        #    self.title_label.setText(self.vlc_app.run_command("get_title")[0])
+        #    self.vlc_volume_meter.setValue(self.vlc_app.volume())
+        #    self.volume_label.setText(str(round(self.vlc_app.volume() / 2.56)))
+        #else:
+        #    self.title_label.setText("VLC not running")
 
-            self.vlc_app.set_password(vlc_password)
+    def update_title(self, title):
+        self.title_label.setText(title)
 
-            self.title_label.setText(self.vlc_app.run_command("get_title")[0])
-            self.vlc_volume_meter.setValue(self.vlc_app.volume())
-            self.volume_label.setText(str(round(self.vlc_app.volume() / 2.56)))
-        else:
-            self.title_label.setText("VLC not running")
+    def update_volume(self, volume):
+        self.vlc_volume_meter.setValue(volume)
+        self.volume_label.setText(str(round(volume / 2.56)))
 
     def on_exit(self) -> None:
-        pass  # Call on exit
+        self.data_thread.kill_thread()
 
     def grid_1(self) -> None:
         self.vlc_app.prev()

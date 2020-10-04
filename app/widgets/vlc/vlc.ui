@@ -52,7 +52,7 @@
      <x>490</x>
      <y>55</y>
      <width>51</width>
-     <height>231</height>
+     <height>201</height>
     </rect>
    </property>
    <property name="orientation">
@@ -75,7 +75,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Title</string>
+    <string>Opening vlc ...</string>
    </property>
   </widget>
   <widget class="QFrame" name="background">
@@ -97,7 +97,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>280</y>
+      <y>250</y>
       <width>71</width>
       <height>21</height>
      </rect>
@@ -112,6 +112,54 @@
     </property>
     <property name="text">
      <string>75</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>276</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>02:23:24</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>300</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Cascadia Mono</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>03:34:67</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>

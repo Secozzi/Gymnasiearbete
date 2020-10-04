@@ -1,3 +1,4 @@
-{
-  "Celeste": ["path/to/celeste.exe", "relative/path/to/icon.png"]
-}
+[
+  ["Dolphin", "C:\\Users\\folke\\Desktop\\Dolphin-x64\\Dolphin.exe", "dolpin.png"],
+  ["Celeste", "steam://504230", "celeste.png"]
+]
