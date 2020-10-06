@@ -4,87 +4,20 @@ from PyQt5.uic import loadUi
 
 from .vlc_thread import VLCThread
 
-from telnetlib import Telnet
-from socket import error as socketerror
-from configparser import ConfigParser
-from time import sleep
-
-
-class VLCController:
-    def __init__(self, host: str, port: int) -> None:
-        self.vlc_running = False
-
-        try:
-            self.tn = Telnet(host, port)
-        except socketerror:
-            self.vlc_running = False
-        else:
-            self.vlc_running = True
-
-    def set_password(self, password: str) -> None:
-        self.tn.read_until(b"Password: ")
-        self.run_command(password)
-
-    def run_command(self, command: str) -> list:
-        self.tn.write(command.encode("utf-8") + b"\n")
-
-        output = self.tn.read_until(b"> ").decode("utf-8")
-        return output.split("\r\n")[:-1]
-
-    def get_length(self) -> int:
-        return int(self.run_command("get_length")[0])
-
-    def get_time(self) -> int:
-        return int(self.run_command("get_time")[0])
-
-    def toggleplay(self) -> None:
-        self.run_command("pause")
-
-    def volume(self) -> int:
-        return int(self.run_command("volume")[0])
-
-    def volume_up(self) -> None:
-        self.run_command("volup 1")
-
-    def volume_down(self) -> None:
-        self.run_command("voldown 1")
-
-    def small_jump_forwards(self) -> None:
-        if self.get_time() + 5 < self.get_length():
-            self.run_command(f"seek {self.get_time() + 5}")
-
-    def small_jump_backwars(self) -> None:
-        if self.get_time() - 5 > 0:
-            self.run_command(f"seek {self.get_time() - 5}")
-
-    def big_jump_forwards(self) -> None:
-        if self.get_time() + 30 < self.get_length():
-            self.run_command(f"seek {self.get_time() + 30}")
-
-    def big_jump_backwars(self) -> None:
-        if self.get_time() - 30 > 0:
-            self.run_command(f"seek {self.get_time() - 30}")
-
-    def next(self) -> None:
-        self.run_command("next")
-
-    def prev(self) -> None:
-        self.run_command("prev")
-
 
 class VLCWidget(QWidget):
     """
-    Control a vlc instance with global shortcuts. Shortcuts:
+    Control a vlc instance with global shortcuts. Mappings:
 
-    Pause/Play      - Ctrl + Alt + Shift + 1 - Num 5
-    Volume up       - Ctrl + Alt + Shift + 2 - Num 8
-    Volume down     - Ctrl + Alt + Shift + 3 - Num 2
-    Back 5 sec      - Ctrl + Alt + Shift + 4 - Num 7
-    Forward 5 sec   - Ctrl + Alt + Shift + 5 - Num 9
-    Back 30 sec     - Ctrl + Alt + Shift + 6 - Num 1
-    Forward 30 sec  - Ctrl + Alt + Shift + 7 - Num 3
-    Next track      - Ctrl + Alt + Shift + 8 - Num 6
-    Previous track  - Ctrl + Alt + Shift + 9 - Num 4
+    Pause/Play     - Num 5
+    Volume up      - Num 8
+    Volume down    - Num 2
+    Back 5 sec     - Num 7
+    Forward 5 sec  - Num 9
+    Back 30 sec    - Num 1
+    Forward 30 sec - Num 3
+    Next track     - Num 6
+    Previous track - Num 4
     """
 
     display_name = "Vlc"
@@ -104,26 +37,10 @@ class VLCWidget(QWidget):
         return QPixmap(f"{curr_path}/widgets/vlc/vlc.png")
 
     def on_enter(self) -> None:
-        try:
-            self.data_thread.vlc_title.connect(self.update_title)
-            self.data_thread.vlc_volume.connect(self.update_volume)
-            self.data_thread.start()
-        except Exception as e:
-            print(e)
-        #self.vlc_app = VLCController("127.0.0.1", 4212)
-        #self.vlc_running = self.vlc_app.vlc_running
-        #if self.vlc_running:
-        #    credentials = ConfigParser()
-        #    credentials.read(f"{self.main_window.current_path}/credentials.cfg")
-        #    vlc_password = credentials["VLC"]["PASSWORD"]
-        #
-        #    self.vlc_app.set_password(vlc_password)
-        #
-        #    self.title_label.setText(self.vlc_app.run_command("get_title")[0])
-        #    self.vlc_volume_meter.setValue(self.vlc_app.volume())
-        #    self.volume_label.setText(str(round(self.vlc_app.volume() / 2.56)))
-        #else:
-        #    self.title_label.setText("VLC not running")
+        self.data_thread.vlc_title.connect(self.update_title)
+        self.data_thread.vlc_volume.connect(self.update_volume)
+        self.data_thread.vlc_time.connect(self.update_time)
+        self.data_thread.start()
 
     def update_title(self, title):
         self.title_label.setText(title)
@@ -132,49 +49,45 @@ class VLCWidget(QWidget):
         self.vlc_volume_meter.setValue(volume)
         self.volume_label.setText(str(round(volume / 2.56)))
 
+    def update_time(self, time):
+        self.current_time.setText(time[0])
+        self.movie_duration.setText(time[1])
+
     def on_exit(self) -> None:
         self.data_thread.kill_thread()
 
     def grid_1(self) -> None:
-        self.vlc_app.prev()
-        sleep(0.1)
-        self.title_label.setText(self.vlc_app.run_command("get_title")[0])
+        self.data_thread.prev()
 
     def grid_2(self) -> None:
-        self.vlc_app.toggleplay()
+        self.data_thread.toggleplay()
 
     def grid_3(self) -> None:
-        self.vlc_app.next()
-        sleep(0.1)
-        self.title_label.setText(self.vlc_app.run_command("get_title")[0])
+        self.data_thread.next()
 
     def grid_4(self) -> None:
         pass  # Num +
 
     def grid_5(self) -> None:
-        self.vlc_app.big_jump_backwars()
+        self.data_thread.big_jump_backwars()
 
     def grid_6(self) -> None:
-        self.vlc_app.volume_down()
-        self.vlc_volume_meter.setValue(self.vlc_app.volume())
-        self.volume_label.setText(str(round(self.vlc_app.volume() / 2.56)))
+        self.data_thread.volume_down()
 
     def grid_7(self) -> None:
-        self.vlc_app.big_jump_forwards()
+        self.data_thread.big_jump_forwards()
 
     def grid_8(self) -> None:
         pass  # Num Enter
 
     def grid_9(self) -> None:
-        self.vlc_app.small_jump_forwards()
+        self.data_thread.small_jump_forwards()
 
     def grid_sd(self) -> None:
-        self.vlc_app.small_jump_backwars()
+        self.data_thread.small_jump_backwars()
 
     def grid_su(self) -> None:
-        self.vlc_app.volume_up()
-        self.vlc_volume_meter.setValue(self.vlc_app.volume())
-        self.volume_label.setText(str(round(self.vlc_app.volume() / 2.56)))
+        self.data_thread.volume_up()
 
     def grid_view_o(self) -> None:
         pass  # Num Page Down

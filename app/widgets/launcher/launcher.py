@@ -8,11 +8,14 @@ from math import ceil
 class LauncherWidget(QWidget):
 
     display_name = "Appar"
+    icons_path = "/widgets/launcher/icons"
     steam_path = r"F:\Program Files (x86)\Steam\Steam.exe"
 
     def __init__(self, main_window) -> None:
         super().__init__()
         self.main_window = main_window
+        self.icons_path = self.main_window.current_path + self.icons_path
+
         self.launcher_data = {}
         self.launch_index = []
         self.scroll_counter = 0
@@ -53,11 +56,15 @@ class LauncherWidget(QWidget):
         with open(f"{self.main_window.current_path}/widgets/launcher/data.json") as f:
             self.launcher_data = tuple(json.load(f))
 
-        print(self.launcher_data)
-        print(type(self.launcher_data))
+        home_widget = self.main_window.stackedWidget.currentWidget()
+        for index, app_info in enumerate(self.launcher_data):
+            getattr(home_widget, f"text_{index}").setText(app_info[0])
+            _pixmap = QPixmap(f"{self.icons_path}/{app_info[2]}")
+            getattr(home_widget, f"icon_{index}").setText("")
+            getattr(home_widget, f"icon_{index}").setPixmap(_pixmap)
 
     def on_exit(self) -> None:
-        pass  # Called on exit
+        pass
 
     def grid_1(self) -> None:
         pass  # Num 4

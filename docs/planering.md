@@ -20,6 +20,7 @@
 | 01 Okt 2020 | Fortsatte med väder | Göra klart väder, börja på appstartare |
 | 02 Okt 2020 | Gjord klart väder, började på appstarare | Göra klart appstartare. |
 | 04 Okt 2020 | Fixade bug på VLC | Fixa klart VLC Threading |
+| 05-06 Okt 2020 | Fixade klart VLC |
 
 # Planeringsschema
 

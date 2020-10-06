@@ -85,5 +85,6 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 * https://doc.qt.io/qtforpython/
 * https://github.com/boppreh/keyboard
 * https://docs.python.org/3/
+* https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/scancode.doc
 
 ## 5 Bilagor
