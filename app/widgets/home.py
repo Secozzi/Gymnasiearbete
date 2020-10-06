@@ -20,37 +20,37 @@ class HomeWidget(QWidget):
         self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_2(self):
-        if self.main_window.NO_OF_APPS >= 2:
+        if self.main_window.NO_OF_APPS >= 2 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(2 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_3(self):
-        if self.main_window.NO_OF_APPS >= 3:
+        if self.main_window.NO_OF_APPS >= 3 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(3 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_4(self):
-        if self.main_window.NO_OF_APPS >= 4:
+        if self.main_window.NO_OF_APPS >= 4 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(4 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_5(self):
-        if self.main_window.NO_OF_APPS >= 5:
+        if self.main_window.NO_OF_APPS >= 5 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(5 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_6(self):
-        if self.main_window.NO_OF_APPS >= 6:
+        if self.main_window.NO_OF_APPS >= 6 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(6 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_7(self):
-        if self.main_window.NO_OF_APPS >= 7:
+        if self.main_window.NO_OF_APPS >= 7 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(7 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_8(self):
-        if self.main_window.NO_OF_APPS >= 8:
+        if self.main_window.NO_OF_APPS >= 8 + self.main_window.scroll_counter * 4:
             self.main_window.set_index(8 + self.main_window.scroll_counter * 4)
             self.main_window.stackedWidget.currentWidget().on_enter()
 

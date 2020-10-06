@@ -1,4 +1,12 @@
 [
+  ["PyCharm", "C:\\Users\\folke\\AppData\\Local\\JetBrains\\Toolbox\\apps\\PyCharm-C\\ch-0\\202.6397.98\\bin\\pycharm64.exe", "pycharm.png"],
+  ["GD", "steam://322170", "geometry_dash.png"],
+  ["VLC", "C:\\Program Files\\VideoLAN\\VLC\\vlc.exe", "vlc.png"],
   ["Dolphin", "C:\\Users\\folke\\Desktop\\Dolphin-x64\\Dolphin.exe", "dolphin.png"],
-  ["Celeste", "steam://504230", "celeste.png"]
+  ["Celeste", "steam://504230", "celeste.png"],
+  ["Baba Is You", "steam://736260", "baba_is_you.png"],
+  ["Cosmic Express", "steam://583270", "cosmic_express.png"],
+  ["The Witcher", "steam://292030", "witcher_3.png"],
+  ["Satis- factory", "C:\\Program Files\\Epic Games\\SatisfactoryExperimental\\FactoryGame.exe", "satisfactory.png"],
+  ["Cuphead", "F:\\Program Files (x86)\\Cuphead\\Cuphead.exe", "cuphead.png"]
 ]

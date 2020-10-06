@@ -113,6 +113,7 @@ class InfoPad(QMainWindow):
     def update_menu(self) -> None:
         self.first_menu_label.setText(str(WIDGETS.index(self.menu_grid[0]) + 1))
         self.last_menu_label.setText(str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1))
+        self.total_menu_label.setText(str(self.NO_OF_APPS))
 
         home_widget = self.stackedWidget.currentWidget()
         for index, app in enumerate(self.menu_grid):
