@@ -33,6 +33,7 @@ client_id = credentials["SPOTIPY"]["CLIENT_ID"]
 client_secret = credentials["SPOTIPY"]["CLIENT_SECRET"]
 redirect_uri = credentials["SPOTIPY"]["REDIRECT_URI"]
 
+# Create Spotipy instance
 scope = "user-read-playback-state"
 sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
                                                      client_secret=client_secret,
@@ -53,6 +54,15 @@ class InfoThread(QThread):
         Song name, progress, and duration from a Spotify instance
     desktop_volume - int
         System volume in percentage (1-100)
+
+    Constans:
+    REFRESH RATE - float
+        How long the thread will sleep between each time it gets,
+        process, and sends information to main thread.
+    MUSIC_LENGTH - int
+        How many characters the label showing the music info contains
+    SPOT_PID - int
+        Current PID of Spotify instance
     """
 
     # pyqtSignals
@@ -62,11 +72,18 @@ class InfoThread(QThread):
     desktop_volume = pyqtSignal(int)
 
     # Constants
-    REFRESH_REATE = 0.2
+    REFRESH_RATE = 0.2
     MUSIC_LENGTH = 22
     SPOT_PID = -1
 
     def run(self) -> None:
+        """Function called when thread is started
+
+        Gets PID from spotify, current volume, and information
+        about current spotify playback.
+        Every "REFRESH_RATE", it gets emitted to main window.
+        """
+
         for p in process_iter():
             if p.name() == "Spotify.exe":
                 self.SPOT_PID = p.pid
@@ -82,10 +99,14 @@ class InfoThread(QThread):
             self.desktop_volume.emit(round(_master_volume))
             self.music.emit(spotify_info)
 
-            sleep(self.REFRESH_REATE)
+            sleep(self.REFRESH_RATE)
 
     def get_spotify_information(self) -> str:
-        """Get song name, duration, and progress from a Spotify instance."""
+        """Get song name, duration, and progress from a Spotify instance.
+
+        If Spotify is not running or no song is playing,
+        "Nothing playing currently" gets returned.
+        """
         if pid_exists(self.SPOT_PID):
             try:
                 res = sp.current_playback()
@@ -105,11 +126,13 @@ class InfoThread(QThread):
             return "Nothing playing currently"[:self.MUSIC_LENGTH]
 
     def refresh_spotify(self) -> None:
+        """Refresh PID from a Spotify instance"""
         for p in process_iter():
             if p.name() == "Spotify.exe":
                 self.SPOT_PID = p.pid
 
     @staticmethod
     def get_length(ms: int) -> str:
+        """Converts milliseconds into MINUTE:SECONDS format"""
         s = round(ms / 1000)
         return f"{(s // 60):02d}:{(s % 60):02d}"

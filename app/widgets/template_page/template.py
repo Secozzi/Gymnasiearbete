@@ -4,10 +4,21 @@ from PyQt5.uic import loadUi
 
 
 class TemplateWidget(QWidget):
+    """This is a template page that contains all necessary methods
+    in order to create a working application.
+
+    template.png is the icon used to display the application on the home screen.
+    template.py is the file containing the widget.
+    template.ui is the "Qt Designer User Interface" file loaded.
+
+    disaply_name is the name shown on the home screen.
+    """
 
     display_name = "Template"
 
-    def __init__(self, main_window) -> None:
+    def __init__(self, main_window: 'InfoPad') -> None:
+        """Initialize the widget, super it, pass
+        instance of the main window, and load the UI file"""
         super().__init__()
         self.main_window = main_window
 
@@ -15,46 +26,83 @@ class TemplateWidget(QWidget):
 
     @staticmethod
     def get_icon(curr_path: str) -> QPixmap:
+        """This methods gets called when the home screen will display the application.
+
+        :param curr_path: str
+            The current path of this python project. curr_path is based on app.pyw, the main
+            window file.
+        :return: QPixmap
+            Returns a QPixmap object of the image.
+        """
         return QPixmap(f"{curr_path}/widgets/template_page/template.png")
 
     def on_enter(self) -> None:
-        pass  # Called on enter
+        """This method gets called every time the user enters this application"""
+        pass
 
     def on_exit(self) -> None:
-        pass  # Called on exit
+        """This method gets called after the user goes back to the home screen"""
+        pass
 
     def grid_1(self) -> None:
-        pass  # Num 4
+        """The method called when the user presses 'grid 1'.
+        This corresponds to 'num 0 + num 4'"""
+        pass
 
     def grid_2(self) -> None:
-        pass  # Num 5
+        """The method called when the user presses 'grid 2'.
+        This corresponds to 'num 0 + num 5'"""
+        pass
 
     def grid_3(self) -> None:
-        pass  # Num 6
+        """The method called when the user presses 'grid 3'.
+        This corresponds to 'num 0 + num 6'"""
+        pass
 
     def grid_4(self) -> None:
-        pass  # Num +
+        """The method called when the user presses 'grid 4'.
+        This corresponds to 'num 0 + num +'"""
+        pass
 
     def grid_5(self) -> None:
-        pass  # Num 1
+        """The method called when the user presses 'grid 5'.
+        This corresponds to 'num 0 + num 1'"""
+        pass
 
     def grid_6(self) -> None:
-        pass  # Num 2
+        """The method called when the user presses 'grid 6'.
+        This corresponds to 'num 0 + num 2'"""
+        pass
 
     def grid_7(self) -> None:
-        pass  # Num 3
+        """The method called when the user presses 'grid 7'.
+        This corresponds to 'num 0 + num 3'"""
+        pass
 
     def grid_8(self) -> None:
-        pass  # Num Enter
+        """The method called when the user presses 'grid 8'.
+        This corresponds to 'num 0 + num enter'"""
+        pass
 
     def grid_9(self) -> None:
-        pass  # Num 9
+        """The method called when the user presses 'grid 9'.
+        This corresponds to 'num 0 + num 9'"""
+        pass
 
     def grid_sd(self) -> None:
-        pass  # Num 7
+        """The method called when the user presses 'grid scroll down'.
+        This corresponds to 'num 0 + num 7'"""
+        pass
 
     def grid_su(self) -> None:
-        pass  # Num 8
+        """The method called when the user presses 'grid scroll up'.
+        This corresponds to 'num 0 + num 8'"""
+        pass
 
     def grid_view_o(self) -> None:
-        pass  # Num Page Down
+        """The method called when the user presses 'grid view overlay'.
+        This corresponds to 'num 0 + page down'
+
+        Note: as of current, this method will never get called
+        """
+        pass

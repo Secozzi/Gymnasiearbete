@@ -1,4 +1,7 @@
-from PyQt5.QtCore import QAbstractNativeEventFilter
+from PyQt5.QtCore import QAbstractNativeEventFilter, QByteArray
+from typing import Union, Tuple
+from pyqtkeybind import keybinder
+from ctypes import c_void_p
 
 
 class WinEventFilter(QAbstractNativeEventFilter):
@@ -25,10 +28,15 @@ class WinEventFilter(QAbstractNativeEventFilter):
     | Numpad0 - Modifier      - Modifier          |
     \---------------------------------------------/
     """
-    def __init__(self, keybinder):
-        self.keybinder = keybinder
+    def __init__(self, _keybinder: keybinder) -> None:
+        """Create keybinder instance and super init"""
+        self.keybinder = _keybinder
         super().__init__()
 
-    def nativeEventFilter(self, eventType, message):
+    def nativeEventFilter(self,
+                          eventType: Union['QByteArray', bytes, bytearray],
+                          message: "sip.voidptr"
+                          ) -> Tuple[bool, int]:
+        """Handle native event filter from eventType."""
         ret = self.keybinder.handler(eventType, message)
         return ret, 0

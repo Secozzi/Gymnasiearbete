@@ -3,14 +3,16 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
 from .data_thread import SmhiThread
-from pprint import pprint
 
 
 class SmhiWidget(QWidget):
+    """Weather application using the SMHI API. It shows the
+    temperature, general weather as an icon, and precipitation
+    for the next 24h in a 4x6 grid."""
 
     display_name = "Väder"
 
-    def __init__(self, main_window) -> None:
+    def __init__(self, main_window: 'InfoPad') -> None:
         super().__init__()
         self.main_window = main_window
         self.data_thead = SmhiThread()
@@ -21,7 +23,7 @@ class SmhiWidget(QWidget):
     def get_icon(curr_path: str) -> QPixmap:
         return QPixmap(f"{curr_path}/widgets/smhi/smhi.png")
 
-    def update_ui(self, input_dict) -> None:
+    def update_ui(self, input_dict: dict) -> None:
         smhi_widget = self.main_window.stackedWidget.currentWidget()
 
         for key in list(input_dict.keys()):
@@ -32,6 +34,7 @@ class SmhiWidget(QWidget):
             getattr(smhi_widget, f"icon_{key}").setPixmap(_pixmap)
 
     def on_enter(self) -> None:
+        """Connect signals and start thread"""
         self.data_thead.weather_info.connect(self.update_ui)
         self.data_thead.start()
 

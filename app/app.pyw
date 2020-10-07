@@ -20,11 +20,13 @@ CURR_PATH = path.dirname(path.realpath(__file__))
 
 
 class InfoPad(QMainWindow):
+    """Main window of application."""
 
     OPACITY_STEP = 0.2
     NO_OF_APPS = len(WIDGETS)
 
     def __init__(self) -> None:
+        """Initializes the app"""
         super().__init__()
 
         self.menu_grid = self.init_menu_grid(WIDGETS)
@@ -45,12 +47,24 @@ class InfoPad(QMainWindow):
 
     @staticmethod
     def init_menu_grid(apps: tuple) -> tuple:
+        """Initialize the menu tuple, only allowing 8 maximum items"""
         menu = list(apps)
         while len(menu) < 9:
             menu.append(None)
         return tuple(menu[0:8])
 
     def scroll_up(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The first four items
+        in the menu tuple will become the last four and the four items before
+        the first four items will become the first four items in the menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        After scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]"""
         if self.scroll_counter > 0:
             new_menu = []
             start = (self.scroll_counter - 1) * 4
@@ -62,6 +76,19 @@ class InfoPad(QMainWindow):
             self.scroll_counter -= 1
 
     def scroll_down(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The last four items
+        in the menu tuple will become the first four and the four (or less)
+        items after the last four items will become the last four items in the
+        menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]
+        After scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        """
         step = ceil((self.NO_OF_APPS - 8) / 4)
         if self.scroll_counter < step:
             new_menu = []
@@ -77,6 +104,12 @@ class InfoPad(QMainWindow):
             self.scroll_counter += 1
 
     def init_ui(self) -> None:
+        """Initialize the UI
+
+        Load from .ui file and apply stylesheet.
+        Set QPixmaps on corresponding labels.
+        """
+
         loadUi(f"{CURR_PATH}/app.ui", self)
 
         with open(f"{CURR_PATH}/assets/style.qss") as f:
@@ -107,10 +140,16 @@ class InfoPad(QMainWindow):
         self.desktop_volume.setPixmap(QPixmap(f"{self.current_path}/assets/desktop.png"))
         self.desktop_volume.setScaledContents(True)
 
+        # Initialize sliders
         self.desktop_volume_meter.setMinimum(0)
         self.desktop_volume_meter.setMaximum(100)
 
     def update_menu(self) -> None:
+        """Updates menu.
+
+        Gets index of first and last widget viewed on screen and total amount of widgets.
+        Updates text and icon on each grid index.
+        """
         self.first_menu_label.setText(str(WIDGETS.index(self.menu_grid[0]) + 1))
         self.last_menu_label.setText(str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1))
         self.total_menu_label.setText(str(self.NO_OF_APPS))
@@ -127,6 +166,7 @@ class InfoPad(QMainWindow):
                 getattr(home_widget, f"text_{index}").clear()
 
     def start_thread(self) -> None:
+        """Connect signals to each respective function and start thread"""
         self.i_thread.time_s.connect(self.update_time)
         self.i_thread.date_s.connect(self.update_date)
         self.i_thread.desktop_volume.connect(self.update_desktop_volume)
@@ -134,21 +174,26 @@ class InfoPad(QMainWindow):
         self.i_thread.start()
 
     def add_widgets(self) -> None:
+        """Create instances of each widget and add it to the stacked widget"""
         for widget in [HomeWidget] + list(WIDGETS):
             _widget = widget(self)
             self.stackedWidget.addWidget(_widget)
         self.stackedWidget.setCurrentIndex(0)
 
     def set_index(self, index: int) -> None:
+        """Sets index on stack widget"""
         self.stackedWidget.setCurrentIndex(index)
 
     def update_time(self, time_s: str) -> None:
+        """Update time label"""
         self.time_string.setText(time_s)
 
     def update_date(self, date_s: str) -> None:
+        """Update date label"""
         self.date_string.setText(date_s)
 
     def update_desktop_volume(self, d_volume: int) -> None:
+        """Update desktop volume slider and label"""
         if d_volume == 100:
             self.desktop_volume_label.setFont(QFont("Cascadia Mono", 10))
         else:
@@ -157,6 +202,7 @@ class InfoPad(QMainWindow):
         self.desktop_volume_meter.setValue(d_volume)
 
     def update_music(self, playback: str) -> None:
+        """Update label showing current spotify playback information"""
         self.music_string.setText(playback)
 
     def grid_1(self) -> None:
@@ -193,20 +239,23 @@ class InfoPad(QMainWindow):
         self.stackedWidget.currentWidget().grid_su()
 
     def grid_ou(self) -> None:
+        """Turn up opacity on window"""
         _opacity = self.windowOpacity()
         if _opacity < 1.0:
             self.setWindowOpacity(_opacity + self.OPACITY_STEP)
 
     def grid_od(self) -> None:
+        """Turn down opacity on window"""
         _opacity = self.windowOpacity()
         if _opacity > 0:
             self.setWindowOpacity(_opacity - self.OPACITY_STEP)
 
     def grid_view_o(self) -> None:
+        """Refresh spotify PID on info thread"""
         self.i_thread.refresh_spotify()
-        #self.stackedWidget.currentWidget().grid_view_o()
 
     def grid_mm(self) -> None:
+        """Toggle mic picture state"""
         if self.active_mic:
             self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_off.png"))
             self.active_mic = False
@@ -215,6 +264,7 @@ class InfoPad(QMainWindow):
             self.active_mic = True
 
     def grid_home(self) -> None:
+        """Call on_exit() method on top widget and go to the home screen"""
         self.stackedWidget.currentWidget().on_exit()
         self.stackedWidget.setCurrentIndex(0)
         self.update_menu()
@@ -227,6 +277,7 @@ def main() -> None:
 
     info_app = InfoPad()
 
+    # Register hotkeys
     keybinder.init()
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F13", info_app.grid_sd)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+F14", info_app.grid_su)
@@ -247,10 +298,12 @@ def main() -> None:
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F16", info_app.grid_od)
     keybinder.register_hotkey(info_app.winId(), "Ctrl+Alt+F17", info_app.grid_view_o)
 
+    # Install native event filter
     win_event_filter = WinEventFilter(keybinder)
     event_dispatcher = QAbstractEventDispatcher.instance()
     event_dispatcher.installNativeEventFilter(win_event_filter)
 
+    # If three monitors detected, move window to thirds screen and make it fullscreen
     if QDesktopWidget().screenCount() == 3:
         monitor = QDesktopWidget().screenGeometry(2)
         info_app.move(monitor.left(), monitor.top())

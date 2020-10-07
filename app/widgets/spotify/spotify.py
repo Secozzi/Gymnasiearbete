@@ -9,9 +9,12 @@ import requests
 
 
 class SpotifyWidget(QWidget):
+    """Spotify application. It displays the cover image,
+    the artist name and song name."""
+
     display_name = "Spotify"
 
-    def __init__(self, main_window) -> None:
+    def __init__(self, main_window: 'InfoPad') -> None:
         super().__init__()
         self.main_window = main_window
 
@@ -23,6 +26,10 @@ class SpotifyWidget(QWidget):
         return QPixmap(f"{curr_path}/widgets/spotify/spotify.png")
 
     def on_enter(self) -> None:
+        """Read client_id, client_secret, and redirect_uri from credentials.cfg.
+        It will then create a spotipy instance and retrieve cover image, artist
+        name, and song name from current playing song.
+        """
         self.credentials = ConfigParser()
         self.credentials.read(f"{self.main_window.current_path}/credentials.cfg")
 
@@ -67,7 +74,8 @@ class SpotifyWidget(QWidget):
             self.track_artist.setText("Nothing playing")
             self.track_song.setText("Nothing playing")
 
-    def on_exit(self) -> None:  # Deleting saves ~3 MB of RAM here
+    def on_exit(self) -> None:
+        """Clear labels and delete variables in order to save memory"""
         self.track_icon.clear()
         self.track_artist.clear()
         self.track_song.clear()

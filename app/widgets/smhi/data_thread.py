@@ -12,15 +12,28 @@ class SmhiThread(QThread):
     weather_info - dict
         Informatin given from smhi.
         Index as key:
-        [time, temperature, precipitation, icon_number] as key
+        [time, temperature, precipitation, icon_number] as value
+
+    Constants:
+    LONGITUDE - float
+        Longitude of coordinate
+    LATITUDE - float
+        Latitude of coordinate
     """
 
+    # Signals
     weather_info = pyqtSignal(dict)
 
+    # Constants
     LONGITUDE = 11.974546
     LATITUDE = 57.690388
 
     def run(self) -> None:
+        """Function called when thread is started.
+
+        Retrieves data from API and iterates through it,
+        adds desired data to output."""
+
         data = self.get_data()
         output = {}
 
@@ -50,6 +63,8 @@ class SmhiThread(QThread):
         self.weather_info.emit(output)
 
     def get_data(self) -> dict:
+        """Load data from json file given by the API"""
+
         smhi_link = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/"
         data_link = smhi_link + "geotype/point/lon/" + str(self.LONGITUDE) + "/lat/" + str(self.LATITUDE) + "/"
         data_link += "data.json"

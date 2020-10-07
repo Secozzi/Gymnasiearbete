@@ -9,12 +9,34 @@ import json
 
 
 class LauncherWidget(QWidget):
+    """Widget for the launcher application. It displays
+    every application in a 2x4 grid that the user can
+    scroll up and down. Every application has its own
+    icon and display name.
+
+    The data is stored in "data.json" as a list. Each element
+    is a list with [display_name, path_to_exe,
+    name_for_icon_in_icon_folder.png]. Path to exe is the full
+    path to the exe. In order to launch steam games, the full
+    path is replaced by steam://{id} where id is the app id.
+
+    Constants:
+    display_name - str
+        Display name for application
+    icons_path - str
+        Relative path to the icons folder, base path is the
+        current path from the app.pyw containing the main
+        window. This application will search in this folder
+        for the name of the image given by the data.json file.
+    steam_path - str
+        Full path to steam.exe.
+    """
 
     display_name = "Appar"
     icons_path = "/widgets/launcher/icons"
     steam_path = r"F:\Program Files (x86)\Steam\Steam.exe"
 
-    def __init__(self, main_window) -> None:
+    def __init__(self, main_window: 'InfoPad') -> None:
         super().__init__()
         self.main_window = main_window
         self.icons_path = self.main_window.current_path + self.icons_path
@@ -24,6 +46,7 @@ class LauncherWidget(QWidget):
         self.no_of_apps = 0
         self.scroll_counter = 0
 
+        # load data.json file and initialize some variables
         with open(f"{self.main_window.current_path}/widgets/launcher/data.json") as f:
             self.launcher_data = tuple(json.load(f))
 
@@ -39,12 +62,24 @@ class LauncherWidget(QWidget):
 
     @staticmethod
     def init_app_menu(apps: tuple) -> tuple:
+        """Initialize the menu tuple, only allowing 8 maximum items"""
         menu = list(apps)
         while len(menu) < 9:
             menu.append(None)
         return tuple(menu[0:8])
 
     def scroll_up(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The first four items
+        in the menu tuple will become the last four and the four items before
+        the first four items will become the first four items in the menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        After scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]"""
         if self.scroll_counter > 0:
             new_menu = []
             start = (self.scroll_counter - 1) * 4
@@ -56,6 +91,19 @@ class LauncherWidget(QWidget):
             self.scroll_counter -= 1
 
     def scroll_down(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The last four items
+        in the menu tuple will become the first four and the four (or less)
+        items after the last four items will become the last four items in the
+        menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]
+        After scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        """
         step = ceil((len(self.launcher_data) - 8) / 4)
         if self.scroll_counter < step:
             new_menu = []
@@ -71,6 +119,8 @@ class LauncherWidget(QWidget):
             self.scroll_counter += 1
 
     def on_enter(self) -> None:
+        """Set labels of the scroll bar to correct value.
+        Reset scroll counter and update the menu."""
         self.main_window.total_menu_label.setText(str(self.no_of_apps))
 
         if self.no_of_apps < 8:
@@ -82,6 +132,11 @@ class LauncherWidget(QWidget):
         self.update_menu()
 
     def update_menu(self) -> None:
+        """Updates menu.
+
+        Gets index of first and last widget viewed on screen and total amount of widgets.
+        Updates text and icon on each grid index.
+        """
         self.main_window.first_menu_label.setText(str(self.launcher_data.index(self.apps_grid[0]) + 1))
         self.main_window.last_menu_label.setText(str(self.launcher_data.index(list(filter(None.__ne__, self.apps_grid))[-1]) + 1))
         self.main_window.total_menu_label.setText(str(self.no_of_apps))
@@ -102,6 +157,15 @@ class LauncherWidget(QWidget):
         pass
 
     def launch_app(self, path: str) -> None:
+        """Launches the app by executing the command in a
+        new process. A regex is performed in order to check
+        if 'steam://{some_id}' is presend and if so, launch
+        "{steam_path} -applaunch some_id" instead of the
+        path given.
+
+        :param path: str
+            Full path of the executable or steam://{app_id}.
+        """
         regex = pyreg.compile(r"steam:\/\/([0-z]+)")
         m = regex.search(path)
 
