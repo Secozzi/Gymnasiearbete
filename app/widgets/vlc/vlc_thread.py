@@ -3,7 +3,7 @@ from PyQt5.QtCore import pyqtSignal, QThread
 from telnetlib import Telnet
 from socket import error as socketerror
 from configparser import ConfigParser
-from time import sleep, time
+from time import sleep
 
 
 class VLCThread(QThread):

@@ -82,9 +82,12 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 
 ## 4 Källförteckning
 
-* https://doc.qt.io/qtforpython/
-* https://github.com/boppreh/keyboard
 * https://docs.python.org/3/
-* https://download.microsoft.com/download/1/6/1/161ba512-40e2-4cc9-843a-923143f3456c/scancode.doc
+* https://doc.qt.io/qtforpython/
+* https://github.com/codito/pyqtkeybind
+* https://psutil.readthedocs.io/en/latest/
+* https://spotipy.readthedocs.io/en/2.16.0/
+* https://requests.readthedocs.io/en/master/
+* https://github.com/AndreMiras/pycaw
 
 ## 5 Bilagor

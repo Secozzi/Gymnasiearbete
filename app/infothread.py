@@ -67,7 +67,6 @@ class InfoThread(QThread):
     SPOT_PID = -1
 
     def run(self) -> None:
-
         for p in process_iter():
             if p.name() == "Spotify.exe":
                 self.SPOT_PID = p.pid
@@ -105,12 +104,12 @@ class InfoThread(QThread):
         else:
             return "Nothing playing currently"[:self.MUSIC_LENGTH]
 
-    def refresh_spotify(self):
+    def refresh_spotify(self) -> None:
         for p in process_iter():
             if p.name() == "Spotify.exe":
                 self.SPOT_PID = p.pid
 
     @staticmethod
-    def get_length(ms):
+    def get_length(ms: int) -> str:
         s = round(ms / 1000)
         return f"{(s // 60):02d}:{(s % 60):02d}"

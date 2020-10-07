@@ -42,14 +42,14 @@ class VLCWidget(QWidget):
         self.data_thread.vlc_time.connect(self.update_time)
         self.data_thread.start()
 
-    def update_title(self, title):
+    def update_title(self, title: str) -> None:
         self.title_label.setText(title)
 
-    def update_volume(self, volume):
+    def update_volume(self, volume: int) -> None:
         self.vlc_volume_meter.setValue(volume)
         self.volume_label.setText(str(round(volume / 2.56)))
 
-    def update_time(self, time):
+    def update_time(self, time: list) -> None:
         self.current_time.setText(time[0])
         self.movie_duration.setText(time[1])
 
