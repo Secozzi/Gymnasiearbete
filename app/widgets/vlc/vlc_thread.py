@@ -55,6 +55,7 @@ class VLCThread(QThread):
         """
         self.vlc_running = False
         self.thread_running = True
+        self.tn = None
 
         try:
             self.tn = Telnet(self.host, self.port)
@@ -75,16 +76,17 @@ class VLCThread(QThread):
         else:
             self.vlc_title.emit("VLC IS NOT RUNNING")
 
-        while self.thread_running:
-            current_time = self.format_seconds(self.get_time())
-            duration = self.format_seconds(self.get_length())
-            volume = self.get_volume()
-            title = self.get_title()
+        if self.tn:
+            while self.thread_running:
+                current_time = self.format_seconds(self.get_time())
+                duration = self.format_seconds(self.get_length())
+                volume = self.get_volume()
+                title = self.get_title()
 
-            self.vlc_time.emit([current_time, duration])
-            self.vlc_volume.emit(volume)
-            self.vlc_title.emit(title)
-            sleep(0.5)
+                self.vlc_time.emit([current_time, duration])
+                self.vlc_volume.emit(volume)
+                self.vlc_title.emit(title)
+                sleep(0.5)
 
         # When thread is stopped
         self.vlc_title.emit("VLC IS NOT RUNNING")

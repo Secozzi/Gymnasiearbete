@@ -1,9 +1,9 @@
 import psutil
-import GPUtil
 from time import sleep
-
-def stuff(se) -> Omega:
-    print("stuff")
+import wmi
 
 
-stuff()
+while True:
+    w = wmi.WMI()
+    print(w.Win32_TemperatureProbe()[0].CurrentReading)
+    sleep(1)

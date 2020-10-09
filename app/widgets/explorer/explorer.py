@@ -1,0 +1,202 @@
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5.uic import loadUi
+
+from os import path as ospath
+from os import startfile
+from math import ceil
+import json
+
+
+class ExplorerWidget(QWidget):
+    """Widget for the folders application. It displays
+    every folder in a 2x4 grid that the user can
+    scroll up and down. Every folder has its own
+    icon and display name.
+
+    The data is stored in "data.json" as a list. Each element
+    is a list with [display_name, path_to_folder,
+    name_for_icon_in_icon_folder.png].
+
+    Constants:
+    display_name - str
+        Display name for application
+    icons_path - str
+        Relative path to the icons folder, base path is the
+        current path from the app.pyw containing the main
+        window. This application will search in this folder
+        for the name of the image given by the data.json file.
+    """
+
+    display_name = "Mappar"
+    icons_path = "/widgets/explorer/icons"
+
+    def __init__(self, main_window: 'InfoPad') -> None:
+        super().__init__()
+        self.main_window = main_window
+        self.icons_path = self.main_window.current_path + self.icons_path
+
+        self.launcher_data = {}
+        self.launch_index = []
+        self.no_of_apps = 0
+        self.scroll_counter = 0
+
+        # load data.json file and initialize some variables
+        with open(f"{self.main_window.current_path}/widgets/explorer/data.json") as f:
+            self.launcher_data = tuple(json.load(f))
+
+        self.no_of_apps = len(self.launcher_data)
+
+        self.apps_grid = self.init_app_menu(self.launcher_data)
+
+        loadUi(f"{self.main_window.current_path}/widgets/explorer/explorer.ui", self)
+
+    @staticmethod
+    def get_icon(curr_path: str) -> QPixmap:
+        return QPixmap(f"{curr_path}/widgets/explorer/explorer.png")
+
+    @staticmethod
+    def init_app_menu(apps: tuple) -> tuple:
+        """Initialize the menu tuple, only allowing 8 maximum items"""
+        menu = list(apps)
+        while len(menu) < 9:
+            menu.append(None)
+        return tuple(menu[0:8])
+
+    def scroll_up(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The first four items
+        in the menu tuple will become the last four and the four items before
+        the first four items will become the first four items in the menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        After scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]"""
+        if self.scroll_counter > 0:
+            new_menu = []
+            start = (self.scroll_counter - 1) * 4
+            to_insert = list(self.launcher_data[start:start + 4])
+
+            new_menu += to_insert
+            new_menu += self.apps_grid[0:4]
+            self.apps_grid = tuple(new_menu)
+            self.scroll_counter -= 1
+
+    def scroll_down(self) -> None:
+        """Shifts the menu tuple by 4 steps, if allowed. The last four items
+        in the menu tuple will become the first four and the four (or less)
+        items after the last four items will become the last four items in the
+        menu tuple.
+
+        [] = all applications
+        () = the 8 or less applications shown on screen
+
+        Before scrolling up:
+        [(1, 2, 3, 4, 5, 6, 7, 8), 9, 10, 11, 12, 13]
+        After scrolling up:
+        [1, 2, 3, 4, (5, 6, 7, 8, 9, 10, 11, 12), 13]
+        """
+        step = ceil((len(self.launcher_data) - 8) / 4)
+        if self.scroll_counter < step:
+            new_menu = []
+            next_item = 8 + 4 * self.scroll_counter
+            to_insert = list(self.launcher_data[next_item:next_item + 4])
+
+            while len(to_insert) < 4:
+                to_insert.append(None)
+
+            new_menu += self.apps_grid[4:9]
+            new_menu += to_insert
+            self.apps_grid = tuple(new_menu)
+            self.scroll_counter += 1
+
+    def on_enter(self) -> None:
+        """Set labels of the scroll bar to correct value.
+        Reset scroll counter and update the menu."""
+        self.main_window.total_menu_label.setText(str(self.no_of_apps))
+
+        if self.no_of_apps < 8:
+            self.main_window.last_menu_label.setText(str(self.no_of_apps))
+        else:
+            self.main_window.last_menu_label.setText("8")
+
+        self.scroll_counter = 0
+        self.update_menu()
+
+    def update_menu(self) -> None:
+        """Updates menu.
+
+        Gets index of first and last widget viewed on screen and total amount of widgets.
+        Updates text and icon on each grid index.
+        """
+        self.main_window.first_menu_label.setText(str(self.launcher_data.index(self.apps_grid[0]) + 1))
+        self.main_window.last_menu_label.setText(str(self.launcher_data.index(list(filter(None.__ne__, self.apps_grid))[-1]) + 1))
+        self.main_window.total_menu_label.setText(str(self.no_of_apps))
+
+        home_widget = self.main_window.stackedWidget.currentWidget()
+        for index, app_info in enumerate(self.apps_grid):
+            if app_info:
+                getattr(home_widget, f"text_{index}").setText(app_info[0])
+                _pixmap = QPixmap(f"{self.icons_path}/{app_info[2]}")
+                getattr(home_widget, f"icon_{index}").setText("")
+                getattr(home_widget, f"icon_{index}").setPixmap(_pixmap)
+            else:
+                getattr(home_widget, f"text_{index}").setText("")
+                getattr(home_widget, f"icon_{index}").setText("")
+                getattr(home_widget, f"icon_{index}").clear()
+
+    def on_exit(self) -> None:
+        pass
+
+    def open_folder(self, path: str) -> None:
+        """Opens folder given by path in explorer"""
+        _path = ospath.realpath(path)
+        startfile(_path)
+
+    def grid_1(self) -> None:
+        self.open_folder(self.launcher_data[self.scroll_counter * 4][1])
+
+    def grid_2(self) -> None:
+        if self.no_of_apps >= 2 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[1 + self.scroll_counter * 4][1])
+
+    def grid_3(self) -> None:
+        if self.no_of_apps >= 3 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[2 + self.scroll_counter * 4][1])
+
+    def grid_4(self) -> None:
+        if self.no_of_apps >= 4 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[3 + self.scroll_counter * 4][1])
+
+    def grid_5(self) -> None:
+        if self.no_of_apps >= 5 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[4 + self.scroll_counter * 4][1])
+
+    def grid_6(self) -> None:
+        if self.no_of_apps >= 6 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[5 + self.scroll_counter * 4][1])
+
+    def grid_7(self) -> None:
+        if self.no_of_apps >= 7 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[6 + self.scroll_counter * 4][1])
+
+    def grid_8(self) -> None:
+        if self.no_of_apps >= 8 + self.scroll_counter * 4:
+            self.open_folder(self.launcher_data[7 + self.scroll_counter * 4][1])
+
+    def grid_9(self) -> None:
+        pass  # Num 9
+
+    def grid_sd(self) -> None:
+        self.scroll_down()
+        self.update_menu()
+
+    def grid_su(self) -> None:
+        self.scroll_up()
+        self.update_menu()
+
+    def grid_view_o(self) -> None:
+        pass  # Num Page Down

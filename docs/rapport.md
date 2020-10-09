@@ -41,8 +41,7 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 1. Hur kan man öka produktiviteten när man sitter vid datorn?
 2. Hur ska man snabbt och smidigt få reda på information gällande ens dator och omgivning när man är upptagen med annat på datorn?
 3. Vad krävs för att förbättra ens upplevelse med datorn?
-4. Hur gör man när ett eller flera program tar upp all yta på skärmen (eller flera) och man vill kolla något snabbt som till exempel tiden utan att kolla på mobilen och/eller stänga ner programmen?
-
+4. Hur gör man när ett eller flera program tar upp all yta på skärmen/skärmarna och man vill kolla något snabbt som till exempel tiden utan att kolla på mobilen och/eller stänga ner programmen?
 
 ### 1.4 Kravspecifikation
 
@@ -51,7 +50,7 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 ##### Krav
 
 * Kabeln till tangentbordet ska åka under stativet
-* Skydda PCB:en från damm etc.
+* Skydda PCB:en från damm
 
 ##### Önskemål
 
@@ -70,7 +69,7 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 ##### Önskemål
 
 * Programmet ska fungera på både Windows och Linux
-* Det ska fungera på flera storlekar
+* Det ska fungera på flera skrämstorlekar
 
 ### 1.5 Metod och material
 

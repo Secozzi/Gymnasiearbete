@@ -22,6 +22,7 @@
 | 04 Okt 2020 | Fixade bug på VLC | Fixa klart VLC Threading |
 | 05-06 Okt 2020 | Fixade klart VLC och appstartare. Började på systeminformation | Göra klart gränssnittet till systeminformation |
 | 07 Okt 2020 | Gjorde klart gränssnitt för systeminformation. Dokumenterade koden | Göra klart systeminformation |
+| 09 Okt 2020 | Fixade VLC bug och gjorde klart applikationen "mappar". Började lite på system | Göra klart systeminformation |
 
 # Planeringsschema
 

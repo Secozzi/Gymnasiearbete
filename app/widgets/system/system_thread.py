@@ -20,8 +20,9 @@ class SystemThread(QThread):
         self.thread_running = True
 
         while self.thread_running:
-            # Do stuff
+            _memory = psutil.virtual_memory().percent
+            _cpu = psutil.cpu_percent()
             sleep(self.system_refresh_rate)
 
     def kill_thread(self) -> None:
-            self.thread_running = False
+        self.thread_running = False
