@@ -128,7 +128,6 @@ class VLCThread(QThread):
     def get_time(self) -> int:
         """Get time elapsed on movie on VLC instance"""
         output = self.run_command("get_time")
-        print(output)
         if output == [""] or not output:
             return 0
         else:
