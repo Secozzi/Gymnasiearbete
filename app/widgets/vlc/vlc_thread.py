@@ -120,7 +120,7 @@ class VLCThread(QThread):
     def get_length(self) -> int:
         """Get movie duration on VLC instance"""
         length = self.run_command("get_length")
-        if length == [""]:
+        if length == [""] or not length:
             return 0
         else:
             return int(length[0])
@@ -128,7 +128,8 @@ class VLCThread(QThread):
     def get_time(self) -> int:
         """Get time elapsed on movie on VLC instance"""
         output = self.run_command("get_time")
-        if output == [""]:
+        print(output)
+        if output == [""] or not output:
             return 0
         else:
             return int(output[0])
@@ -140,7 +141,7 @@ class VLCThread(QThread):
     def get_volume(self) -> int:
         """Gets volume on VLC instance"""
         volume = self.run_command("volume")
-        if volume == [""]:
+        if volume == [""] or not volume:
             return 0
         else:
             return int(volume[0])
@@ -188,7 +189,7 @@ class VLCThread(QThread):
     def get_title(self) -> str:
         """Gets title of current movie played"""
         title = self.run_command("get_title")
-        if title == ['']:
+        if title == [""] or not title:
             return ""
         else:
             return title[0]

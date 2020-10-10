@@ -24,6 +24,7 @@
 | 07 Okt 2020 | Gjorde klart gränssnitt för systeminformation. Dokumenterade koden | Göra klart systeminformation |
 | 09 Okt 2020 | Fixade VLC bug och gjorde klart applikationen "mappar". Började lite på system | Göra klart systeminformation |
 | 10 Okt 2020 | Försökte mig på Core Temp remote server men misslyckades | Fråga läraren om han vet eller nåt |
+| 10 Okt 2020 | Fixade VLC bug | Samma som förra |
 
 # Planeringsschema
 
