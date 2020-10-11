@@ -12,7 +12,7 @@ class SmhiThread(QThread):
     weather_info - dict
         Informatin given from smhi.
         Index as key:
-        [time, temperature, precipitation, icon_number] as value
+        {"ti": time, "t": temperature, "p": precipitation, "s": icon_number} as value
 
     Constants:
     LONGITUDE - float
@@ -45,20 +45,20 @@ class SmhiThread(QThread):
             time = time + timedelta(hours=2)
             time = str(datetime.strftime(time, "%H:%M"))
 
-            param_list = [time]
+            param_dict = {"ti": time}
 
             for param in parameters:
                 if param["name"] == "t":
                     temp = str(round(float(param["values"][0])))
-                    param_list.append(temp)
+                    param_dict["t"] = temp
                 elif param["name"] == "pmean":
                     precipitation = str(param["values"][0])
-                    param_list.append(precipitation)
+                    param_dict["p"] = precipitation
                 elif param["name"] == "Wsymb2":
                     symbol = int(param["values"][0])
-                    param_list.append(symbol)
+                    param_dict["s"] = symbol
 
-            output[i] = param_list
+            output[i] = param_dict
 
         self.weather_info.emit(output)
 

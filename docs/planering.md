@@ -25,6 +25,7 @@
 | 09 Okt 2020 | Fixade VLC bug och gjorde klart applikationen "mappar". Började lite på system | Göra klart systeminformation |
 | 10 Okt 2020 | Försökte mig på Core Temp remote server men misslyckades | Fråga läraren om han vet eller nåt |
 | 10 Okt 2020 | Fixade VLC bug | Samma som förra |
+| 11 Okt 2020 | Gjorde klart system och fyllde i mappar i applikationen mappar. Fixade SMHI bug. | Börja med CAD |
 
 # Planeringsschema
 

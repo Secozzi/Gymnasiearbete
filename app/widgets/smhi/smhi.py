@@ -26,11 +26,11 @@ class SmhiWidget(QWidget):
     def update_ui(self, input_dict: dict) -> None:
         smhi_widget = self.main_window.stackedWidget.currentWidget()
 
-        for key in list(input_dict.keys()):
+        for key in input_dict:
             params = input_dict[key]
-            getattr(smhi_widget, f"time_{key}").setText(params[0])
-            getattr(smhi_widget, f"info_{key}").setText(f"{params[1]}°C - {params[2]}mm")
-            _pixmap = QPixmap(f"{self.main_window.current_path}/widgets/smhi/icons/{params[3]}.png")
+            getattr(smhi_widget, f"time_{key}").setText(params["ti"])
+            getattr(smhi_widget, f"info_{key}").setText(f"{params['t']}°C - {params['p']}mm")
+            _pixmap = QPixmap(f"{self.main_window.current_path}/widgets/smhi/icons/{params['s']}.png")
             getattr(smhi_widget, f"icon_{key}").setPixmap(_pixmap)
 
     def on_enter(self) -> None:
