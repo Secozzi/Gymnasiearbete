@@ -32,7 +32,7 @@ class SpotifyWidget(QWidget):
 
     display_name = "Spotify"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
 
@@ -56,11 +56,15 @@ class SpotifyWidget(QWidget):
         redirect_uri = self.credentials["SPOTIPY"]["REDIRECT_URI"]
 
         scope = "user-read-playback-state"
-        self.sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
-                                                                  client_secret=client_secret,
-                                                                  redirect_uri=redirect_uri,
-                                                                  cache_path=f"{self.main_window.current_path}/.cache",
-                                                                  scope=scope))
+        self.sp = Spotify(
+            client_credentials_manager=SpotifyOAuth(
+                client_id=client_id,
+                client_secret=client_secret,
+                redirect_uri=redirect_uri,
+                cache_path=f"{self.main_window.current_path}/.cache",
+                scope=scope,
+            )
+        )
 
         self.res = self.sp.current_playback()
 
@@ -75,7 +79,9 @@ class SpotifyWidget(QWidget):
                 self.track_icon.setPixmap(self.image_pixmap)
             else:
                 self.image = None
-                self.image_pixmap = QPixmap(f"{self.main_window.current_path}/widgets/spotify/no_image.png")
+                self.image_pixmap = QPixmap(
+                    f"{self.main_window.current_path}/widgets/spotify/no_image.png"
+                )
 
                 self.track_icon.setPixmap(self.image_pixmap)
 
@@ -86,7 +92,9 @@ class SpotifyWidget(QWidget):
             self.track_song.setText(song_name)
         else:
             self.image = None
-            self.image_pixmap = QPixmap(f"{self.main_window.current_path}/widgets/spotify/no_image.png")
+            self.image_pixmap = QPixmap(
+                f"{self.main_window.current_path}/widgets/spotify/no_image.png"
+            )
 
             self.track_icon.setPixmap(self.image_pixmap)
             self.track_artist.setText("Nothing playing")

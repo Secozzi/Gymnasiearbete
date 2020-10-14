@@ -1,5 +1,5 @@
 #MainWindow {
-    background-image: url(app/assets/background.png);
+    background-image: url(:/assets/background.png);
 }
 
 QLabel {

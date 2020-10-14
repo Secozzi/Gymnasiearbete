@@ -54,7 +54,7 @@ class LauncherWidget(QWidget):
     icons_path = "/widgets/launcher/icons"
     steam_path = r"F:\Program Files (x86)\Steam\Steam.exe"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
         self.icons_path = self.main_window.current_path + self.icons_path
@@ -101,7 +101,7 @@ class LauncherWidget(QWidget):
         if self.scroll_counter > 0:
             new_menu = []
             start = (self.scroll_counter - 1) * 4
-            to_insert = list(self.launcher_data[start:start + 4])
+            to_insert = list(self.launcher_data[start : start + 4])
 
             new_menu += to_insert
             new_menu += self.apps_grid[0:4]
@@ -126,7 +126,7 @@ class LauncherWidget(QWidget):
         if self.scroll_counter < step:
             new_menu = []
             next_item = 8 + 4 * self.scroll_counter
-            to_insert = list(self.launcher_data[next_item:next_item + 4])
+            to_insert = list(self.launcher_data[next_item : next_item + 4])
 
             while len(to_insert) < 4:
                 to_insert.append(None)
@@ -155,8 +155,15 @@ class LauncherWidget(QWidget):
         Gets index of first and last widget viewed on screen and total amount of widgets.
         Updates text and icon on each grid index.
         """
-        self.main_window.first_menu_label.setText(str(self.launcher_data.index(self.apps_grid[0]) + 1))
-        self.main_window.last_menu_label.setText(str(self.launcher_data.index(list(filter(None.__ne__, self.apps_grid))[-1]) + 1))
+        self.main_window.first_menu_label.setText(
+            str(self.launcher_data.index(self.apps_grid[0]) + 1)
+        )
+        self.main_window.last_menu_label.setText(
+            str(
+                self.launcher_data.index(list(filter(None.__ne__, self.apps_grid))[-1])
+                + 1
+            )
+        )
         self.main_window.total_menu_label.setText(str(self.no_of_apps))
 
         home_widget = self.main_window.stackedWidget.currentWidget()

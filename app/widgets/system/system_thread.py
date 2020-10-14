@@ -52,20 +52,20 @@ class SystemThread(QThread):
         _bits = int(B / KB)
 
         if B < KB:
-            return ['{0} {1}'.format(B, 'Bits' if 0 == B > 1 else 'Bit'), _bits]
+            return ["{0} {1}".format(B, "Bits" if 0 == B > 1 else "Bit"), _bits]
         elif KB <= B < MB:
-            return ['{0:.2f} Kbit/s'.format(B / KB), _bits]
+            return ["{0:.2f} Kbit/s".format(B / KB), _bits]
         elif MB <= B < GB:
-            return ['{0:.2f} Mbit/s'.format(B / MB), _bits]
+            return ["{0:.2f} Mbit/s".format(B / MB), _bits]
         elif GB <= B < TB:
-            return ['{0:.2f} Gbit/s'.format(B / GB), _bits]
+            return ["{0:.2f} Gbit/s".format(B / GB), _bits]
         elif TB <= B:
-            return ['{0:.2f} Tbit/s'.format(B / TB), _bits]
+            return ["{0:.2f} Tbit/s".format(B / TB), _bits]
 
     def run(self) -> None:
 
         self.thread_running = True
-        network_card = "Wi-Fi"
+        network_card = "Ethernet 2"
 
         _ul = 0.0
         _dl = 0.0
@@ -78,7 +78,7 @@ class SystemThread(QThread):
         while self.thread_running:
             _gpu = getGPUs()
 
-            _gpu_load = round(_gpu[0].load*100, 1)
+            _gpu_load = round(_gpu[0].load * 100, 1)
             _gpu_temp = _gpu[0].temperature
             _cpu_load = cpu_percent()
             _memory_load = virtual_memory().percent
@@ -89,13 +89,18 @@ class SystemThread(QThread):
             _up_down = (_upload, _download)
 
             _t1 = time()
-            _ul, _dl = [(_now - _last) / (_t1 - _t0) for _now, _last in zip(_up_down, _last_up_down)]
+            _ul, _dl = [
+                (_now - _last) / (_t1 - _t0)
+                for _now, _last in zip(_up_down, _last_up_down)
+            ]
             _t0 = time()
 
             _ul_l = self.humanbits(_ul * 8)
             _dl_l = self.humanbits(_dl * 8)
 
-            self.system_info.emit([_gpu_load, _gpu_temp, _cpu_load, _memory_load, _dl_l, _ul_l])
+            self.system_info.emit(
+                [_gpu_load, _gpu_temp, _cpu_load, _memory_load, _dl_l, _ul_l]
+            )
             sleep(self.system_refresh_rate)
 
     def kill_thread(self) -> None:

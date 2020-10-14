@@ -30,7 +30,7 @@ class SmhiWidget(QWidget):
 
     display_name = "Väder"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
         self.data_thead = SmhiThread()
@@ -47,8 +47,12 @@ class SmhiWidget(QWidget):
         for key in input_dict:
             params = input_dict[key]
             getattr(smhi_widget, f"time_{key}").setText(params["ti"])
-            getattr(smhi_widget, f"info_{key}").setText(f"{params['t']}°C - {params['p']}mm")
-            _pixmap = QPixmap(f"{self.main_window.current_path}/widgets/smhi/icons/{params['s']}.png")
+            getattr(smhi_widget, f"info_{key}").setText(
+                f"{params['t']}°C - {params['p']}mm"
+            )
+            _pixmap = QPixmap(
+                f"{self.main_window.current_path}/widgets/smhi/icons/{params['s']}.png"
+            )
             getattr(smhi_widget, f"icon_{key}").setPixmap(_pixmap)
 
     def on_enter(self) -> None:

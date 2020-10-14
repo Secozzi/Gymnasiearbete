@@ -35,7 +35,6 @@ from time import sleep
 from datetime import datetime
 from psutil import pid_exists, process_iter
 
-
 CURR_PATH = path.dirname(path.realpath(__file__))
 
 # Get audio device
@@ -53,11 +52,15 @@ redirect_uri = credentials["SPOTIPY"]["REDIRECT_URI"]
 
 # Create Spotipy instance
 scope = "user-read-playback-state"
-sp = Spotify(client_credentials_manager=SpotifyOAuth(client_id=client_id,
-                                                     client_secret=client_secret,
-                                                     redirect_uri=redirect_uri,
-                                                     cache_path=f"{CURR_PATH}/.cache",
-                                                     scope=scope))
+sp = Spotify(
+    client_credentials_manager=SpotifyOAuth(
+        client_id=client_id,
+        client_secret=client_secret,
+        redirect_uri=redirect_uri,
+        cache_path=f"{CURR_PATH}/.cache",
+        scope=scope,
+    )
+)
 
 
 class InfoThread(QThread):
@@ -139,9 +142,9 @@ class InfoThread(QThread):
 
             song_name = res["item"]["name"]
 
-            return f"{current}/{duration} {song_name}"[:self.MUSIC_LENGTH]
+            return f"{current}/{duration} {song_name}"[: self.MUSIC_LENGTH]
         else:
-            return "Nothing playing currently"[:self.MUSIC_LENGTH]
+            return "Nothing playing currently"[: self.MUSIC_LENGTH]
 
     def refresh_spotify(self) -> None:
         """Refresh PID from a Spotify instance"""

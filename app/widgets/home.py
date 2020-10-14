@@ -25,7 +25,7 @@ class HomeWidget(QWidget):
     a 2x4 grid that the user can scroll up and down. Every
     application has its own icon and display name"""
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
 

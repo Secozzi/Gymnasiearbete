@@ -34,13 +34,15 @@ class TemplateWidget(QWidget):
 
     display_name = "Template"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         """Initialize the widget, super it, pass
         instance of the main window, and load the UI file"""
         super().__init__()
         self.main_window = main_window
 
-        loadUi(f"{self.main_window.current_path}/widgets/template_page/template.ui", self)
+        loadUi(
+            f"{self.main_window.current_path}/widgets/template_page/template.ui", self
+        )
 
     @staticmethod
     def get_icon(curr_path: str) -> QPixmap:

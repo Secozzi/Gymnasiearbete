@@ -26,7 +26,8 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#background {background-image: url(app/widgets/vlc/vlc_background.png);}
+   <string notr="true">#background {background-image: url(:/vlc_background.png);}
+
 
 #vlc_volume_meter::groove, #program_volume_meter::groove {
     background: #2a2a2a;

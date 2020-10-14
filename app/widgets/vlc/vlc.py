@@ -21,6 +21,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
 from .vlc_thread import VLCThread
+from . import resources
 
 
 class VLCWidget(QWidget):
@@ -44,7 +45,7 @@ class VLCWidget(QWidget):
 
     display_name = "Vlc"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
         self.data_thread = VLCThread(self.main_window.current_path)

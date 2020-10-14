@@ -24,13 +24,12 @@ from .system_thread import SystemThread
 
 
 class SystemWidget(QWidget):
-    """Weather application using the SMHI API. It shows the
-    temperature, general weather as an icon, and precipitation
-    for the next 24h in a 4x6 grid."""
+    """Displays system information such as GPU temp and load, CPU load,
+    Memory usage, and Ethernet usage in and out"""
 
     display_name = "System"
 
-    def __init__(self, main_window: 'InfoPad') -> None:
+    def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
         self.main_window = main_window
         self.system_thread = SystemThread()
@@ -49,7 +48,7 @@ class SystemWidget(QWidget):
         """This method gets called after the user goes back to the home screen"""
         self.system_thread.kill_thread()
 
-    def update_ui(self, info_list):
+    def update_ui(self, info_list: list) -> None:
         """Updates UI
 
         :param info_list: list

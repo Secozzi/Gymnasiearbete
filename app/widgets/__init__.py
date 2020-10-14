@@ -23,6 +23,7 @@ from .smhi.smhi import SmhiWidget
 from .launcher.launcher import LauncherWidget
 from .explorer.explorer import ExplorerWidget
 from .system.system import SystemWidget
+from .browser.browser import BrowserWidget
 
 WIDGETS = (
     SpotifyWidget,
@@ -30,5 +31,6 @@ WIDGETS = (
     SmhiWidget,
     LauncherWidget,
     ExplorerWidget,
-    SystemWidget
+    SystemWidget,
+    BrowserWidget,
 )

@@ -29,12 +29,13 @@ from subprocess import Popen
 from pyqtkeybind import keybinder
 
 # Relative
-from .key_binder import WinEventFilter
-from .widgets import WIDGETS, HomeWidget
-from .infothread import InfoThread
+from key_binder import WinEventFilter
+from widgets import WIDGETS, HomeWidget
+from infothread import InfoThread
 
 
 CURR_PATH = path.dirname(path.realpath(__file__))
+import resources
 
 
 class InfoPad(QMainWindow):
@@ -52,11 +53,15 @@ class InfoPad(QMainWindow):
         self.scroll_counter = 0
 
         self.current_path = CURR_PATH
-        Popen([r"C:\Program Files\AutoHotkey\AutoHotkey.exe", f"{self.current_path}/win_func.ahk"])
+        Popen(
+            [
+                r"C:\Program Files\AutoHotkey\AutoHotkey.exe",
+                f"{self.current_path}/win_func.ahk",
+            ]
+        )
 
         self.i_thread = InfoThread()
-        #self.setWindowFlags(Qt.FramelessWindowHint)
-        #self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
+        self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
         self.init_ui()
         self.add_widgets()
         self.start_thread()
@@ -86,7 +91,7 @@ class InfoPad(QMainWindow):
         if self.scroll_counter > 0:
             new_menu = []
             start = (self.scroll_counter - 1) * 4
-            to_insert = list(WIDGETS[start:start + 4])
+            to_insert = list(WIDGETS[start : start + 4])
 
             new_menu += to_insert
             new_menu += self.menu_grid[0:4]
@@ -111,7 +116,7 @@ class InfoPad(QMainWindow):
         if self.scroll_counter < step:
             new_menu = []
             next_item = 8 + 4 * self.scroll_counter
-            to_insert = list(WIDGETS[next_item:next_item + 4])
+            to_insert = list(WIDGETS[next_item : next_item + 4])
 
             while len(to_insert) < 4:
                 to_insert.append(None)
@@ -132,6 +137,7 @@ class InfoPad(QMainWindow):
 
         with open(f"{CURR_PATH}/assets/style.qss") as f:
             style_sheet = f.read()
+
         self.setStyleSheet(style_sheet)
 
         self.total_menu_label.setText(str(self.NO_OF_APPS))
@@ -142,20 +148,28 @@ class InfoPad(QMainWindow):
 
         # Set QPixmaps
         self.scroll_up_arrow.setText("")
-        self.scroll_up_arrow.setPixmap(QPixmap(f"{self.current_path}/assets/scroll_bar_arrow.png"))
+        self.scroll_up_arrow.setPixmap(
+            QPixmap(f"{self.current_path}/assets/scroll_bar_arrow.png")
+        )
         self.scroll_up_arrow.setScaledContents(True)
 
         self.scroll_down_arrow.setText("")
-        _upside_down_arrow = QPixmap(f"{self.current_path}/assets/scroll_bar_arrow.png").transformed(QTransform().rotate(180))
+        _upside_down_arrow = QPixmap(
+            f"{self.current_path}/assets/scroll_bar_arrow.png"
+        ).transformed(QTransform().rotate(180))
         self.scroll_down_arrow.setPixmap(_upside_down_arrow)
         self.scroll_down_arrow.setScaledContents(True)
 
         self.mic_state_label.setText("")
-        self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_on.png"))
+        self.mic_state_label.setPixmap(
+            QPixmap(f"{self.current_path}/assets/mic_on.png")
+        )
         self.mic_state_label.setScaledContents(True)
 
         self.desktop_volume.setText("")
-        self.desktop_volume.setPixmap(QPixmap(f"{self.current_path}/assets/desktop.png"))
+        self.desktop_volume.setPixmap(
+            QPixmap(f"{self.current_path}/assets/desktop.png")
+        )
         self.desktop_volume.setScaledContents(True)
 
         # Initialize sliders
@@ -169,14 +183,18 @@ class InfoPad(QMainWindow):
         Updates text and icon on each grid index.
         """
         self.first_menu_label.setText(str(WIDGETS.index(self.menu_grid[0]) + 1))
-        self.last_menu_label.setText(str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1))
+        self.last_menu_label.setText(
+            str(WIDGETS.index(list(filter(None.__ne__, self.menu_grid))[-1]) + 1)
+        )
         self.total_menu_label.setText(str(self.NO_OF_APPS))
 
         home_widget = self.stackedWidget.currentWidget()
         for index, app in enumerate(self.menu_grid):
             if app:
                 getattr(home_widget, f"icon_{index}").setText("")
-                getattr(home_widget, f"icon_{index}").setPixmap(app.get_icon(self.current_path))
+                getattr(home_widget, f"icon_{index}").setPixmap(
+                    app.get_icon(self.current_path)
+                )
                 getattr(home_widget, f"icon_{index}").setScaledContents(True)
                 getattr(home_widget, f"text_{index}").setText(app.display_name)
             else:
@@ -275,10 +293,14 @@ class InfoPad(QMainWindow):
     def grid_mm(self) -> None:
         """Toggle mic picture state"""
         if self.active_mic:
-            self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_off.png"))
+            self.mic_state_label.setPixmap(
+                QPixmap(f"{self.current_path}/assets/mic_off.png")
+            )
             self.active_mic = False
         else:
-            self.mic_state_label.setPixmap(QPixmap(f"{self.current_path}/assets/mic_on.png"))
+            self.mic_state_label.setPixmap(
+                QPixmap(f"{self.current_path}/assets/mic_on.png")
+            )
             self.active_mic = True
 
     def grid_home(self) -> None:

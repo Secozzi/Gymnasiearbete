@@ -20,20 +20,19 @@ from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5.uic import loadUi
 
-from os import path as ospath
-from os import startfile
+from webbrowser import open as webopen
 from math import ceil
 import json
 
 
-class ExplorerWidget(QWidget):
-    """Widget for the folders application. It displays
-    every folder in a 2x4 grid that the user can
-    scroll up and down. Every folder has its own
+class BrowserWidget(QWidget):
+    """Widget for the browser application. Launches a URL in a
+    browser. It displays every folder in a 2x4 grid that the
+    user can scroll up and down. Every wensite has its own
     icon and display name.
 
     The data is stored in "data.json" as a list. Each element
-    is a list with [display_name, path_to_folder,
+    is a list with [display_name, url,
     name_for_icon_in_icon_folder.png].
 
     Constants:
@@ -46,8 +45,8 @@ class ExplorerWidget(QWidget):
         for the name of the image given by the data.json file.
     """
 
-    display_name = "Mappar"
-    icons_path = "/widgets/explorer/icons"
+    display_name = "Browser"
+    icons_path = "/widgets/browser/icons"
 
     def __init__(self, main_window: "InfoPad") -> None:
         super().__init__()
@@ -60,18 +59,18 @@ class ExplorerWidget(QWidget):
         self.scroll_counter = 0
 
         # load data.json file and initialize some variables
-        with open(f"{self.main_window.current_path}/widgets/explorer/data.json") as f:
+        with open(f"{self.main_window.current_path}/widgets/browser/data.json") as f:
             self.launcher_data = tuple(json.load(f))
 
         self.no_of_apps = len(self.launcher_data)
 
         self.apps_grid = self.init_app_menu(self.launcher_data)
 
-        loadUi(f"{self.main_window.current_path}/widgets/explorer/explorer.ui", self)
+        loadUi(f"{self.main_window.current_path}/widgets/browser/browser.ui", self)
 
     @staticmethod
     def get_icon(curr_path: str) -> QPixmap:
-        return QPixmap(f"{curr_path}/widgets/explorer/explorer.png")
+        return QPixmap(f"{curr_path}/widgets/browser/browser.png")
 
     @staticmethod
     def init_app_menu(apps: tuple) -> tuple:
@@ -176,41 +175,41 @@ class ExplorerWidget(QWidget):
     def on_exit(self) -> None:
         pass
 
-    def open_folder(self, path: str) -> None:
-        """Opens folder given by path in explorer"""
-        _path = ospath.realpath(path)
-        startfile(_path)
+    @staticmethod
+    def open_url(url: str) -> None:
+        """Open URL in default browser"""
+        webopen(url)
 
     def grid_1(self) -> None:
-        self.open_folder(self.launcher_data[self.scroll_counter * 4][1])
+        self.open_url(self.launcher_data[self.scroll_counter * 4][1])
 
     def grid_2(self) -> None:
         if self.no_of_apps >= 2 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[1 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[1 + self.scroll_counter * 4][1])
 
     def grid_3(self) -> None:
         if self.no_of_apps >= 3 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[2 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[2 + self.scroll_counter * 4][1])
 
     def grid_4(self) -> None:
         if self.no_of_apps >= 4 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[3 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[3 + self.scroll_counter * 4][1])
 
     def grid_5(self) -> None:
         if self.no_of_apps >= 5 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[4 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[4 + self.scroll_counter * 4][1])
 
     def grid_6(self) -> None:
         if self.no_of_apps >= 6 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[5 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[5 + self.scroll_counter * 4][1])
 
     def grid_7(self) -> None:
         if self.no_of_apps >= 7 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[6 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[6 + self.scroll_counter * 4][1])
 
     def grid_8(self) -> None:
         if self.no_of_apps >= 8 + self.scroll_counter * 4:
-            self.open_folder(self.launcher_data[7 + self.scroll_counter * 4][1])
+            self.open_url(self.launcher_data[7 + self.scroll_counter * 4][1])
 
     def grid_9(self) -> None:
         pass  # Num 9

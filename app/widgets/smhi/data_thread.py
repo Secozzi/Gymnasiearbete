@@ -83,8 +83,17 @@ class SmhiThread(QThread):
     def get_data(self) -> dict:
         """Load data from json file given by the API"""
 
-        smhi_link = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/"
-        data_link = smhi_link + "geotype/point/lon/" + str(self.LONGITUDE) + "/lat/" + str(self.LATITUDE) + "/"
+        smhi_link = (
+            "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/"
+        )
+        data_link = (
+            smhi_link
+            + "geotype/point/lon/"
+            + str(self.LONGITUDE)
+            + "/lat/"
+            + str(self.LATITUDE)
+            + "/"
+        )
         data_link += "data.json"
 
         return json.loads(requests.get(data_link).text)
