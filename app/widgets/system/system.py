@@ -53,7 +53,8 @@ class SystemWidget(QWidget):
         """Updates UI
 
         :param info_list: list
-            [gpu_load, gpu_temp, cpu_load, cpu_temp, mem_usage, ethernet_usage]
+            [gpu_load, gpu_temp, cpu_load, mem_usage,
+            [eth_in_str, eth_in_int], [eth_out_str, eth_out_int]]
         """
         self.gpu_load.setText(f"GPU Load - {info_list[0]}%")
         self.gpu_load_bar.setValue(info_list[0])
@@ -64,11 +65,14 @@ class SystemWidget(QWidget):
         self.cpu_load.setText(f"CPU Load - {info_list[2]}%")
         self.cpu_load_bar.setValue(info_list[2])
 
-        self.cpu_temp.setText(f"CPU Temp - {info_list[3]}°C")
-        self.cpu_temp_bar.setValue(info_list[3])
+        self.mem_load.setText(f"Mem Usage - {info_list[3]}%")
+        self.mem_load_bar.setValue(info_list[3])
 
-        self.mem_load.setText(f"Mem usage - {info_list[4]}%")
-        self.mem_load_bar.setValue(info_list[4])
+        self.eth_in.setText(f"Eth In - {info_list[4][0]}")
+        self.eth_in_bar.setValue(info_list[4][1])
+
+        self.eth_out.setText(f"Eth Out - {info_list[5][0]}")
+        self.eth_out_bar.setValue(info_list[5][1])
 
     def grid_1(self) -> None:
         """The method called when the user presses 'grid 1'.

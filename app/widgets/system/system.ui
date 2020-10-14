@@ -103,7 +103,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="eth_load">
+      <widget class="QLabel" name="mem_load">
        <property name="font">
         <font>
          <family>Cascadia Mono</family>
@@ -113,7 +113,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Ethernet - 6%</string>
+        <string>Mem usage - 23%</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -121,9 +121,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="eth_load_bar">
+      <widget class="QProgressBar" name="mem_load_bar">
        <property name="value">
-        <number>6</number>
+        <number>23</number>
        </property>
        <property name="textVisible">
         <bool>false</bool>
@@ -163,17 +163,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="cpu_temp">
+      <widget class="QLabel" name="eth_in">
        <property name="font">
         <font>
          <family>Cascadia Mono</family>
-         <pointsize>20</pointsize>
+         <pointsize>16</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>CPU Temp - 56°C</string>
+        <string>Eth In - 13.5 Kbit/s</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -181,7 +181,10 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="cpu_temp_bar">
+      <widget class="QProgressBar" name="eth_in_bar">
+       <property name="maximum">
+        <number>100000</number>
+       </property>
        <property name="value">
         <number>56</number>
        </property>
@@ -191,17 +194,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="mem_load">
+      <widget class="QLabel" name="eth_out">
        <property name="font">
         <font>
          <family>Cascadia Mono</family>
-         <pointsize>20</pointsize>
+         <pointsize>16</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
        </property>
        <property name="text">
-        <string>Mem usage - 23%</string>
+        <string>Eth In - 13.5 Kbit/s</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -209,9 +212,12 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="mem_load_bar">
+      <widget class="QProgressBar" name="eth_out_bar">
+       <property name="maximum">
+        <number>100000</number>
+       </property>
        <property name="value">
-        <number>23</number>
+        <number>6</number>
        </property>
        <property name="textVisible">
         <bool>false</bool>
