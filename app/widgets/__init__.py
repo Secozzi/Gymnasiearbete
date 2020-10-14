@@ -29,5 +29,6 @@ WIDGETS = (
     VLCWidget,
     SmhiWidget,
     LauncherWidget,
-    ExplorerWidget
+    ExplorerWidget,
+    SystemWidget
 )

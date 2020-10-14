@@ -47,7 +47,7 @@ class SystemWidget(QWidget):
 
     def on_exit(self) -> None:
         """This method gets called after the user goes back to the home screen"""
-        pass
+        self.system_thread.kill_thread()
 
     def update_ui(self, info_list):
         """Updates UI
@@ -56,10 +56,19 @@ class SystemWidget(QWidget):
             [gpu_load, gpu_temp, cpu_load, cpu_temp, mem_usage, ethernet_usage]
         """
         self.gpu_load.setText(f"GPU Load - {info_list[0]}%")
+        self.gpu_load_bar.setValue(info_list[0])
+
         self.gpu_temp.setText(f"GPU Temp - {info_list[1]}°C")
+        self.gpu_temp_bar.setValue(info_list[1])
+
         self.cpu_load.setText(f"CPU Load - {info_list[2]}%")
+        self.cpu_load_bar.setValue(info_list[2])
+
         self.cpu_temp.setText(f"CPU Temp - {info_list[3]}°C")
+        self.cpu_temp_bar.setValue(info_list[3])
+
         self.mem_load.setText(f"Mem usage - {info_list[4]}%")
+        self.mem_load_bar.setValue(info_list[4])
 
     def grid_1(self) -> None:
         """The method called when the user presses 'grid 1'.
@@ -119,7 +128,5 @@ class SystemWidget(QWidget):
     def grid_view_o(self) -> None:
         """The method called when the user presses 'grid view overlay'.
         This corresponds to 'num 0 + page down'
-
-        Note: as of current, this method will never get called
         """
         pass

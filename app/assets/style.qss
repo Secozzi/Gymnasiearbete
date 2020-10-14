@@ -20,3 +20,7 @@ QLabel {
 #desktop_volume_meter::add-page, #program_volume_meter::add-page {
     background: #0076D7;
 }
+
+QProgressBar::chunk {
+    background-color: #32CD32;
+}

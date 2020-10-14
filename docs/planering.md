@@ -27,6 +27,7 @@
 | 10 Okt 2020 | Fixade VLC bug | Samma som förra |
 | 11 Okt 2020 | Gjorde klart system och fyllde i mappar i applikationen mappar. Fixade SMHI bug. | Börja med CAD |
 | 13 Okt 2020 | Ändrade licens | Börja med CAD |
+| 14 Okt 2020 | Gjorde klart allt i system förutom nätverk in/ut | Göra klart nätverk ut/in och börja med CAD |
 
 # Planeringsschema
 

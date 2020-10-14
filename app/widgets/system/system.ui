@@ -65,7 +65,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar">
+      <widget class="QProgressBar" name="gpu_load_bar">
        <property name="value">
         <number>57</number>
        </property>
@@ -93,7 +93,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar_3">
+      <widget class="QProgressBar" name="gpu_temp_bar">
        <property name="value">
         <number>52</number>
        </property>
@@ -121,7 +121,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar_4">
+      <widget class="QProgressBar" name="eth_load_bar">
        <property name="value">
         <number>6</number>
        </property>
@@ -153,7 +153,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar_2">
+      <widget class="QProgressBar" name="cpu_load_bar">
        <property name="value">
         <number>4</number>
        </property>
@@ -181,7 +181,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar_5">
+      <widget class="QProgressBar" name="cpu_temp_bar">
        <property name="value">
         <number>56</number>
        </property>
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QProgressBar" name="progressBar_6">
+      <widget class="QProgressBar" name="mem_load_bar">
        <property name="value">
         <number>23</number>
        </property>
