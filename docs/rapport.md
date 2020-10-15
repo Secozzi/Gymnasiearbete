@@ -20,12 +20,6 @@ Handledare: Sofie Kjellgren
     - [1.2 Syfte](#12-syfte)
     - [1.3 Frågeställningar och avgränsningar](#13-frågeställningar-och-avgränsningar)
     - [1.4 Kravspecifikation](#14-kravspecifikation)
-      - [Hårdvara](#hårdvara)
-        - [Krav](#krav)
-        - [Önskemål](#önskemål)
-      - [Mjukvara](#mjukvara)
-        - [Krav](#krav-1)
-        - [Önskemål](#önskemål-1)
     - [1.5 Metod och material](#15-metod-och-material)
   - [2 Teoretisk Bakgrund](#2-teoretisk-bakgrund)
   - [3 Resultatredovisning](#3-resultatredovisning)
@@ -46,6 +40,8 @@ Handledare: Sofie Kjellgren
 
 ### 1.1 Bakgrund
 
+7 månader innan jag började på projektet 
+
 ### 1.2 Syfte
 
 Syftet med detta arbete var att skapa en informativ och lättanvänd informationspanel. Man ska kunna utföra handlingar på ett mycket smidigt och snabbt sätt som inte påverkar användningen av andra program. 
@@ -59,27 +55,27 @@ Min produkt ska kunna antingen vara lösningen till ett svara på följande frå
 3. Vad krävs för att förbättra ens upplevelse med datorn?
 4. Hur gör man när ett eller flera program tar upp all yta på skärmen/skärmarna och man vill kolla något snabbt som till exempel tiden utan att kolla på mobilen och/eller stänga ner programmen?
 
-Det finns några avgränsningar för mitt arbete:
+Avgränsningar för mitt arbete:
 
 1. Applikationen ska fungera på en sju tums 800 x 480 pixlars skärm
-2. Den måste kunna styras enbart med Numpad 0 + Numpad tangenter
+2. Den måste kunna styras enbart med Numpad0 + Numpad tangenter samt page down
 
 ### 1.4 Kravspecifikation
 
-#### Hårdvara
+Hårdvara
 
-##### Krav
+Krav
 
 * Kabeln till tangentbordet ska åka under stativet
 * Skydda PCB:en från damm
 
-##### Önskemål
+Önskemål
 
 * Justebar för vinkel
 
-#### Mjukvara
+Mjukvara
 
-##### Krav
+Krav
 
 * Programmet ska inte ta fokus när kommandon utförts. Med andra ord ska man kunna fortsätta skriva i samma textruta efter att ett kommando har utförts.
 * Andra programm (och eventuellt muspekaren) ska inte kunna hamna på skärmen med programmet.
@@ -87,8 +83,9 @@ Det finns några avgränsningar för mitt arbete:
 * Det ska vara lätt att lägga till / ta bort program.
 * Programmet ska starta med operativsystemet.
 
-##### Önskemål
+Önskemål
 
+* Använda lite av datorns resurser
 * Programmet ska fungera på både Windows och Linux
 * Det ska fungera på flera skrämstorlekar
 
@@ -99,6 +96,8 @@ Det finns några avgränsningar för mitt arbete:
 ## 3 Resultatredovisning
 
 ### 3.1 Applikationen och användningen
+
+Applikationen uppfyllde alla mjukvarokrav och ett enda önskemål. Jag hade som önskemål att den skulle använda lite av datorns resurser och den använder 0%-0.3% av CPU:n och runk 0.2% av allt RAM. 
 
 ### 3.2 Appstartare
 
