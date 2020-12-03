@@ -57,6 +57,7 @@ class VLCWidget(QWidget):
 
     @staticmethod
     def get_icon(curr_path: str) -> QPixmap:
+        """https://www.pngegg.com/en/png-pdcic"""
         return QPixmap(f"{curr_path}/widgets/vlc/vlc.png")
 
     def on_enter(self) -> None:

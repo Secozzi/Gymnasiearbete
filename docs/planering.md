@@ -28,6 +28,8 @@
 | 11 Okt 2020 | Gjorde klart system och fyllde i mappar i applikationen mappar. Fixade SMHI bug. | Börja med CAD |
 | 13 Okt 2020 | Ändrade licens | Börja med CAD |
 | 14 Okt 2020 | Gjorde klart system. Började och gjorde klart Webläsare. Klar med mjukvarodelen | Börja med CAD |
+| 15-21 Okt 2020 | Gjorde klart CAD | Använd appen och hitta eventuella buggar |
+| 22 Okt 2020 | Fixade bug som krashade appen när tre skärmar var närvarande. | Nah |
 
 # Planeringsschema
 

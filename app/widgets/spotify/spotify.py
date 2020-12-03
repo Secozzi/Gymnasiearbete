@@ -41,6 +41,7 @@ class SpotifyWidget(QWidget):
 
     @staticmethod
     def get_icon(curr_path: str) -> QPixmap:
+        """Icon made by Pixel perfect from www.flaticon.com"""
         return QPixmap(f"{curr_path}/widgets/spotify/spotify.png")
 
     def on_enter(self) -> None:

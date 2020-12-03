@@ -77,8 +77,8 @@ class HomeWidget(QWidget):
             self.main_window.stackedWidget.currentWidget().on_enter()
 
     def grid_9(self) -> None:
-        pass
         # self.main_window.showFullScreen()
+        pass
 
     def grid_sd(self) -> None:
         self.main_window.scroll_down()

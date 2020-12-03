@@ -118,6 +118,7 @@ Applikationen uppfyllde alla mjukvarokrav och ett enda önskemål. Jag hade som 
 ## 5 Källförteckning
 
 * https://docs.python.org/3/
+* https://docs.python.org/3/library/telnetlib.html
 * https://doc.qt.io/qtforpython/
 * https://github.com/codito/pyqtkeybind
 * https://psutil.readthedocs.io/en/latest/
