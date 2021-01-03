@@ -41,7 +41,7 @@ class WinEventFilter(QAbstractNativeEventFilter):
     | Numpad- - Mute Mic      - CTRL + Alt + F14  |
     | Numpad* - Opacity Up    - CTRL + Alt + F15  |
     | Numpad/ - Opacity Down  - CTRL + Alt + F16  |
-    | NumpadR - View Overlay  - CTRL + Alt + F17  |
+    | NumpadD - View Overlay  - CTRL + Alt + F17  |
     | Numpad0 - Modifier      - Modifier          |
     \---------------------------------------------/
     """

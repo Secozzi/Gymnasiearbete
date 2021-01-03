@@ -55,6 +55,8 @@ class InfoPad(QMainWindow):
         if screen_count == 3:
             self.setWindowFlags(Qt.Tool | Qt.FramelessWindowHint)
 
+        self.setWindowFlags(Qt.FramelessWindowHint)
+
         self.current_path = CURR_PATH
         Popen(
             [

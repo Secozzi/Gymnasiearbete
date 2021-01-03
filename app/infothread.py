@@ -116,7 +116,7 @@ class InfoThread(QThread):
             spotify_info = self.get_spotify_information()
 
             self.time_s.emit(time_now.strftime("%H:%M:%S"))
-            self.date_s.emit(time_now.strftime("V.%V - %a %d %b %Y"))
+            self.date_s.emit(time_now.strftime(f"V.%U - %a %d %b %Y"))
             self.desktop_volume.emit(round(_master_volume))
             self.music.emit(spotify_info)
 
